@@ -1,10 +1,14 @@
 package com.codesurfers.xpto.repository;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,6 +21,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
+import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
@@ -25,38 +31,53 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class TransacaoFinanceiraRepositoryTest {
 
 	@Autowired
-	private TransacaoFinanceiraRepository entidade;
+	private TransacaoFinanceiraRepository transacaoFincanceiraRepository;
 
 	@Value("classpath:dataset.json")
 	Resource stateFile;
+	
+	
+	private final int ANO_ARQUIVO = 2018;
 
-	@Test
-	@Ignore
-	public void teste1_incluir() {
-		TransacaoFinanceira t = new TransacaoFinanceira();
-		t.setId("123");
-		t.setDataHora(Calendar.getInstance());
-		entidade.save(t);
-	}
-
-	@Test
-	@Ignore
-	public void teste2_buscar() {
-		TransacaoFinanceira t = entidade.findById("123").get();
-		assertNotNull(t);
-
-	}
-
-	@Test
-	public void teste() throws Exception {
+	@Before
+	public void setup() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		TransacaoFinanceira t = null;
-		try {
-			t = objectMapper.readValue(this.stateFile.getInputStream(), TransacaoFinanceira.class);
-		} catch (IOException e) {
-			// throw new Exception();
-		}
+		List<TransacaoFinanceira> transacoes = objectMapper.readValue(this.stateFile.getInputStream(),
+				new TypeReference<List<TransacaoFinanceira>>() {
+				});
+		transacaoFincanceiraRepository.saveAll(transacoes);
+		
+		assertEquals(10, transacaoFincanceiraRepository.count());
+		
+		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_001));
+		
+		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_003));
+		
+		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_004));
+		
+		
+	}
+	
+	@Test
+	public void testeUpdatePagamentosRemetentesInvalidos() {
+		transacaoFincanceiraRepository.updatePagamentosRemetentesInvalidos(ANO_ARQUIVO);
+		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_001));
 
 	}
+	
+	@Test
+	public void testeUpdateRetiradasInvalidas() {
+		transacaoFincanceiraRepository.updateRetiradasInvalidas(ANO_ARQUIVO);
+		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_003));
+	}
+	
+	@Test
+	public void testeupdateDepositosInvalidos() {
+		transacaoFincanceiraRepository.updateDepositosInvalidos(ANO_ARQUIVO);
+		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_004));
+	}
+	
+	
+
 }

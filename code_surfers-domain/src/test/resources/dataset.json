@@ -24,10 +24,10 @@
     {
         "id": "ca8f383d-ee47-4f39-b110-d994cf0f4c00",
         "dataHora": "2017-01-17T14:17:07.925+0000",
-        "remetente": "OPERACOES",
+        "remetente": "COMERCIAL",
         "destinatario": "Moraes - Santos S.A.",
-        "valor": 142.19,
-        "tipoTransacao": "FATURA",
+        "valor": 14200.19,
+        "tipoTransacao": "RETIRADA",
         "valido": true,
         "erroValidacao": "SEM_ERRO",
         "anoArquivo": 2018
@@ -35,10 +35,10 @@
     {
         "id": "70dc1b6d-ef98-4464-b19d-dd0843eb5eaf",
         "dataHora": "2017-11-11T08:00:00.000+0000",
-        "remetente": "FINANCEIRO",
+        "remetente": "OPERACOES",
         "destinatario": "Oliveira, Carvalho and Albuquerque e Associados",
-        "valor": 487.21,
-        "tipoTransacao": "PAGAMENTO",
+        "valor": 1000,
+        "tipoTransacao": "RETIRADA",
         "valido": true,
         "erroValidacao": "SEM_ERRO",
         "anoArquivo": 2018
@@ -47,8 +47,8 @@
         "id": "8c35685b-fe31-4a65-865f-0edc86a63450",
         "dataHora": "2017-03-09T14:24:46.547+0000",
         "remetente": "COMERCIAL",
-        "destinatario": "Melo, Costa and Barros Comércio",
-        "valor": 6902.83,
+        "destinatario": "Melo, Costa and Barros ComÃ©rcio",
+        "valor": 1000,
         "tipoTransacao": "RETIRADA",
         "valido": true,
         "erroValidacao": "SEM_ERRO",
@@ -60,7 +60,7 @@
         "remetente": "FINANCEIRO",
         "destinatario": "Carvalho, Costa and Pereira LTDA",
         "valor": 244.35,
-        "tipoTransacao": "PAGAMENTO",
+        "tipoTransacao": "DEPOSITO",
         "valido": true,
         "erroValidacao": "SEM_ERRO",
         "anoArquivo": 2018
@@ -71,7 +71,7 @@
         "remetente": "TI",
         "destinatario": "Silva S.A. S.A.",
         "valor": 213.76,
-        "tipoTransacao": "FATURA",
+        "tipoTransacao": "DEPOSITO",
         "valido": true,
         "erroValidacao": "SEM_ERRO",
         "anoArquivo": 2018

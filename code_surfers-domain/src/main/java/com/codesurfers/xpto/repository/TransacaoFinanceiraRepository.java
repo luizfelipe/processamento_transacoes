@@ -2,12 +2,15 @@ package com.codesurfers.xpto.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
+import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
 
 public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFinanceira, String> {
 
@@ -15,6 +18,8 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 	
 	List<TransacaoFinanceira> findTop5000ByValidoTrue();
 	
+	Long countByErroValidacao(ErroValidacaoTransacao erro);
+	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 1 WHERE t.id IN "
 			+ "(SELECT tf.id "
@@ -25,6 +30,7 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 			+ "			AND tf.anoArquivo=:anoArquivo)")
 	int updatePagamentosRemetentesInvalidos(@Param("anoArquivo") int anoArquivo);
 	
+	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 3 WHERE t.id IN "
 			+ "(SELECT tf.id "
@@ -35,6 +41,7 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 			+ "			AND tf.anoArquivo=:anoArquivo)")
 	int updateRetiradasInvalidas(@Param("anoArquivo") int anoArquivo);
 	
+	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 4 WHERE t.id IN "
 			+ "(SELECT tf.id "
