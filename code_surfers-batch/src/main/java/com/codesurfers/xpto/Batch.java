@@ -9,7 +9,7 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.codesurfers.xpto.model.Transacao;
+import com.codesurfers.xpto.model.TransacaoFinanceira;
 
 @Configuration
 @EnableBatchProcessing
@@ -20,7 +20,7 @@ public class Batch {
 
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
 
-		Step s2 = steps.get("processar_arquivo").<Transacao, Transacao>chunk(1000).reader(step2.reader())
+		Step s2 = steps.get("processar_arquivo").<TransacaoFinanceira, TransacaoFinanceira>chunk(1000).reader(step2.reader())
 				.processor(step2.processor()).writer(step2.writer()).build();
 
 		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).build();
