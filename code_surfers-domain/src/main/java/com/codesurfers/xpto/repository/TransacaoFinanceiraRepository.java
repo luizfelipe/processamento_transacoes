@@ -11,14 +11,19 @@ import org.springframework.data.repository.query.Param;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
 import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
+import com.codesurfers.xpto.model.enumerations.TipoTransacao;
 
 public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFinanceira, String> {
 
 	List<TransacaoFinanceira> findByValidoTrue();
 	
+	//TODO: Temporário
 	List<TransacaoFinanceira> findTop5000ByValidoTrue();
 	
-	Long countByErroValidacao(ErroValidacaoTransacao erro);
+	List<TransacaoFinanceira> findByTipoTransacaoAndAnoArquivo(TipoTransacao tipoTransacao, int ano);
+	
+	Long countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao erro, int ano);		
+	
 	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 1 WHERE t.id IN "

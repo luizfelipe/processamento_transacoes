@@ -22,7 +22,7 @@ public class TransacaoFinanceiraController {
 	
 	@RequestMapping("/")
 	public Collection<TransacaoFinanceira> buscarValidos() {		
-		
+				
 		// TODO: limitador temporário
 		return transacaoFinanceiraRepository.findTop5000ByValidoTrue();
 		

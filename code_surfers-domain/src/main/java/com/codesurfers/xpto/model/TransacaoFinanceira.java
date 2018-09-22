@@ -98,4 +98,21 @@ public class TransacaoFinanceira {
 	public void setAnoArquivo(Integer anoArquivo) {
 		this.anoArquivo = anoArquivo;
 	}
+	
+	public boolean hasMesmoDiaDoAno(Calendar calendar) {
+		return this.getDataHora().get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR) &&
+				this.getDataHora().get(Calendar.YEAR) == calendar.get(Calendar.YEAR);
+	}
+	
+	public boolean isRemetenteTI() {
+		return this.getRemetente().equals(RemetenteTransacao.TI);
+	}
+	
+	public boolean isRemetenteOperacoes() {
+		return this.getRemetente().equals(RemetenteTransacao.OPERACOES);
+	}
+	
+	public boolean isRemetenteAdministrativo() {
+		return this.getRemetente().equals(RemetenteTransacao.ADMINISTRATIVO);
+	}
 }

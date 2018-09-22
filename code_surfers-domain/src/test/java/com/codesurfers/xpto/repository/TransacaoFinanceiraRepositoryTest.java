@@ -1,16 +1,11 @@
 package com.codesurfers.xpto.repository;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -50,11 +45,11 @@ public class TransacaoFinanceiraRepositoryTest {
 		
 		assertEquals(10, transacaoFincanceiraRepository.count());
 		
-		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_001));
+		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_001, ANO_ARQUIVO));
 		
-		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_003));
+		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_003, ANO_ARQUIVO));
 		
-		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_004));
+		assertEquals(new Long(0), transacaoFincanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_004, ANO_ARQUIVO));
 		
 		
 	}
@@ -62,20 +57,20 @@ public class TransacaoFinanceiraRepositoryTest {
 	@Test
 	public void testeUpdatePagamentosRemetentesInvalidos() {
 		transacaoFincanceiraRepository.updatePagamentosRemetentesInvalidos(ANO_ARQUIVO);
-		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_001));
+		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_001, ANO_ARQUIVO));
 
 	}
 	
 	@Test
 	public void testeUpdateRetiradasInvalidas() {
 		transacaoFincanceiraRepository.updateRetiradasInvalidas(ANO_ARQUIVO);
-		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_003));
+		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_003, ANO_ARQUIVO));
 	}
 	
 	@Test
 	public void testeupdateDepositosInvalidos() {
 		transacaoFincanceiraRepository.updateDepositosInvalidos(ANO_ARQUIVO);
-		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacao(ErroValidacaoTransacao.ERRO_004));
+		assertEquals(new Long(2), transacaoFincanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_004, ANO_ARQUIVO));
 	}
 	
 	
