@@ -1,0 +1,112 @@
+[
+  {
+        "id": "2d500b5a-7fe6-4a9c-9569-06691b978ce9",
+        "dataHora": "2017-03-02T08:00:00.000+0000",
+        "remetente": "TI",
+        "destinatario": "Souza - Batista LTDA",
+        "valor": 670.45,
+        "tipoTransacao": "PAGAMENTO",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "6dffdf6f-782f-4eb8-8b1c-3737454f5625",
+        "dataHora": "2017-06-07T08:50:43.528+0000",
+        "remetente": "TI",
+        "destinatario": "Silva LTDA S.A.",
+        "valor": 653.15,
+        "tipoTransacao": "PAGAMENTO",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "ca8f383d-ee47-4f39-b110-d994cf0f4c00",
+        "dataHora": "2017-01-17T14:17:07.925+0000",
+        "remetente": "COMERCIAL",
+        "destinatario": "Moraes - Santos S.A.",
+        "valor": 14200.19,
+        "tipoTransacao": "RETIRADA",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "70dc1b6d-ef98-4464-b19d-dd0843eb5eaf",
+        "dataHora": "2017-11-11T08:00:00.000+0000",
+        "remetente": "OPERACOES",
+        "destinatario": "Oliveira, Carvalho and Albuquerque e Associados",
+        "valor": 1000,
+        "tipoTransacao": "RETIRADA",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "8c35685b-fe31-4a65-865f-0edc86a63450",
+        "dataHora": "2017-03-09T14:24:46.547+0000",
+        "remetente": "COMERCIAL",
+        "destinatario": "Melo, Costa and Barros Comércio",
+        "valor": 1000,
+        "tipoTransacao": "RETIRADA",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "2e0c9547-9912-4f4d-b20d-6a94d10e8ab4",
+        "dataHora": "2017-04-06T08:00:00.000+0000",
+        "remetente": "FINANCEIRO",
+        "destinatario": "Carvalho, Costa and Pereira LTDA",
+        "valor": 244.35,
+        "tipoTransacao": "DEPOSITO",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "4e8834f4-67a9-4ce7-bc60-accf6e7e562c",
+        "dataHora": "2017-09-21T06:58:26.657+0000",
+        "remetente": "TI",
+        "destinatario": "Silva S.A. S.A.",
+        "valor": 213.76,
+        "tipoTransacao": "DEPOSITO",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "5e09e19e-58a7-49cb-a5dc-73a25701e0e9",
+        "dataHora": "2017-10-18T19:30:04.341+0000",
+        "remetente": "ADMINISTRATIVO",
+        "destinatario": "Pereira - Moraes S.A.",
+        "valor": 275.72,
+        "tipoTransacao": "FATURA",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "37c19908-2ac9-4505-9300-6604a37b648a",
+        "dataHora": "2017-11-19T08:00:00.000+0000",
+        "remetente": "FINANCEIRO",
+        "destinatario": "Xavier, Santos and Carvalho LTDA",
+        "valor": 487.85,
+        "tipoTransacao": "PAGAMENTO",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    },
+    {
+        "id": "1218dd73-a94d-40cf-a85a-9f6b483a58f8",
+        "dataHora": "2017-10-09T05:08:41.596+0000",
+        "remetente": "OPERACOES",
+        "destinatario": "Martins - Carvalho S.A.",
+        "valor": 555.01,
+        "tipoTransacao": "FATURA",
+        "valido": true,
+        "erroValidacao": "SEM_ERRO",
+        "anoArquivo": 2018
+    }
+]
