@@ -21,8 +21,12 @@ public class TransacaoFinanceiraController {
 	}	
 	
 	@RequestMapping("/")
-	public Collection<TransacaoFinanceira> buscarValidos() {
+	public Collection<TransacaoFinanceira> buscarValidos() {		
 		
-		return transacaoFinanceiraRepository.findByValidoTrue();
+		// TODO: limitador temporário
+		return transacaoFinanceiraRepository.findTop5000ByValidoTrue();
+		
+		// TODO: descomentar
+		//return transacaoFinanceiraRepository.findByValidoTrue();
 	}
 }
