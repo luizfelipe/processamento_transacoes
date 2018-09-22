@@ -19,8 +19,8 @@ import com.codesurfers.xpto.model.TransacaoFinanceira;
 
 @Configuration
 public class Step2 {
-	
-	@Value("file:data/transacao_*.csv")
+
+	@Value("file:data/transacoes_partition*.csv")
 	private Resource[] inputResources;
 
 	public ItemReader<TransacaoFinanceira> reader() {
@@ -64,6 +64,10 @@ public class Step2 {
 		JpaItemWriter<TransacaoFinanceira> writer = new JpaItemWriter<TransacaoFinanceira>();
 		writer.setEntityManagerFactory(entityManagerFactory);
 		return writer;
+	}
+
+	public Integer obterNumeroArquivos() {
+		return inputResources.length;
 	}
 
 }

@@ -32,7 +32,7 @@ public class Batch {
 		TaskExecutorPartitionHandler retVal = new TaskExecutorPartitionHandler();
 		retVal.setTaskExecutor(taskExecutor());
 		retVal.setStep(slave);
-		retVal.setGridSize(2);
+		retVal.setGridSize(step2.obterNumeroArquivos());
 
 		Step s2 = steps.get("partitionStep").partitioner("processar_arquivo", new Particionador())
 				.partitionHandler(retVal).build();
