@@ -13,6 +13,8 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 
 	List<TransacaoFinanceira> findByValidoTrue();
 	
+	List<TransacaoFinanceira> findTop5000ByValidoTrue();
+	
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 1 WHERE t.id IN "
 			+ "(SELECT tf.id "
@@ -21,15 +23,24 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 			+ "			tf.tipoTransacao = com.codesurfers.xpto.model.enumerations.TipoTransacao.PAGAMENTO "
 			+ "			AND tf.remetente != com.codesurfers.xpto.model.enumerations.RemetenteTransacao.FINANCEIRO "
 			+ "			AND tf.anoArquivo=:anoArquivo)")
-	int updateTransacoesPagamentosRemetentesInvalidos(@Param("anoArquivo") int anoArquivo);
-	
-	/*@Modifying(clearAutomatically = true)
-	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 3 WHERE t.id IN "
-			+ "(SELECT tf.id FROM TransacaoFinanceira tf WHERE tf.tipoTransacao = TipoTransacao.PAGAMENTO AND tf.remetente != RemetenteTransacao.FINANCEIRO AND tf.anoArquivoano=:ano)")
-	int updateTransacoesPagamentosRemetentesInvalidos(@Param("ano") int ano);
+	int updatePagamentosRemetentesInvalidos(@Param("anoArquivo") int anoArquivo);
 	
 	@Modifying(clearAutomatically = true)
-	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 1 WHERE t.id IN "
-			+ "(SELECT tf.id FROM TransacaoFinanceira tf WHERE tf.tipoTransacao = TipoTransacao.PAGAMENTO AND tf.remetente != RemetenteTransacao.FINANCEIRO AND tf.anoArquivoano=:ano)")
-	int updateTransacoesPagamentosRemetentesInvalidos(@Param("ano") int ano);*/
+	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 3 WHERE t.id IN "
+			+ "(SELECT tf.id "
+			+ "		FROM TransacaoFinanceira tf "
+			+ "		WHERE "
+			+ "			tf.tipoTransacao = com.codesurfers.xpto.model.enumerations.TipoTransacao.RETIRADA "
+			+ "			AND (tf.remetente != com.codesurfers.xpto.model.enumerations.RemetenteTransacao.COMERCIAL OR tf.valor > 10000) "
+			+ "			AND tf.anoArquivo=:anoArquivo)")
+	int updateRetiradasInvalidas(@Param("anoArquivo") int anoArquivo);
+	
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 4 WHERE t.id IN "
+			+ "(SELECT tf.id "
+			+ "		FROM TransacaoFinanceira tf "
+			+ "		WHERE "
+			+ "			tf.tipoTransacao = com.codesurfers.xpto.model.enumerations.TipoTransacao.DEPOSITO "
+			+ "			AND tf.anoArquivo=:anoArquivo)")
+	int updateDepositosInvalidos(@Param("anoArquivo") int anoArquivo);
 }
