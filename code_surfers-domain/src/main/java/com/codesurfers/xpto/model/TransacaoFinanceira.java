@@ -33,6 +33,8 @@ public class TransacaoFinanceira {
 	
 	@Enumerated(EnumType.ORDINAL)
 	private ErroValidacaoTransacao erroValidacao;
+	
+	private Integer anoArquivo;
 		
 	public String getId() {
 		return id;
@@ -88,5 +90,12 @@ public class TransacaoFinanceira {
 	}
 	public void setErroValidacao(ErroValidacaoTransacao erroValidacao) {
 		this.erroValidacao = erroValidacao;
+	}
+	
+	public Integer getAnoArquivo() {
+		return anoArquivo;
+	}
+	public void setAnoArquivo(Integer anoArquivo) {
+		this.anoArquivo = anoArquivo;
 	}
 }
