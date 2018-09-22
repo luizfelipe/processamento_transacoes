@@ -20,6 +20,7 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -54,6 +55,7 @@ public class Step1 {
 	private File zipFile;
 	
 	@Bean
+	@StepScope
 	public Tasklet baixarEDescompactarArquivo() {
 		return new Tasklet() {
 			@Override
