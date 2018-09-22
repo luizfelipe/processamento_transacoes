@@ -1,8 +1,8 @@
 package com.codesurfers.xpto.service;
 
-import com.codesurfers.xpto.model.Transacao;
+import com.codesurfers.xpto.model.TransacaoFinanceira;
 
 public interface ValidacaoProcessor {
 
-	Transacao executar(Transacao transacao);
+	TransacaoFinanceira executar(TransacaoFinanceira transacao);
 }

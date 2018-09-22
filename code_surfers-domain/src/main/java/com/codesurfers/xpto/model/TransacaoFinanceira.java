@@ -3,24 +3,37 @@ package com.codesurfers.xpto.model;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
+import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
+import com.codesurfers.xpto.model.enumerations.RemetenteTransacao;
+import com.codesurfers.xpto.model.enumerations.TipoTransacao;
+
 @Entity
-public class Transacao {
+public class TransacaoFinanceira {
 
 	@Id
 	private String id;
 	
 	private Calendar dataHora;
-	
-	private Remetente remetente;
+			
+	@Enumerated(EnumType.STRING)
+	private RemetenteTransacao remetente;
 
 	private String destinatario; 
 	
 	private Double valor;
 
+	@Enumerated(EnumType.STRING)
 	private TipoTransacao tipoTransacao;
 
+	private Boolean valido;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private ErroValidacaoTransacao erroValidacao;
+		
 	public String getId() {
 		return id;
 	}
@@ -35,10 +48,10 @@ public class Transacao {
 		this.dataHora = dataHora;
 	}
 
-	public Remetente getRemetente() {
+	public RemetenteTransacao getRemetente() {
 		return remetente;
 	}
-	public void setRemetente(Remetente remetente) {
+	public void setRemetente(RemetenteTransacao remetente) {
 		this.remetente = remetente;
 	}
 
@@ -61,5 +74,19 @@ public class Transacao {
 	}
 	public void setTipoTransacao(TipoTransacao tipoTransacao) {
 		this.tipoTransacao = tipoTransacao;
+	}
+	
+	public Boolean getValido() {
+		return valido;
+	}
+	public void setValido(Boolean valido) {
+		this.valido = valido;
+	}
+	
+	public ErroValidacaoTransacao getErroValidacao() {
+		return erroValidacao;
+	}
+	public void setErroValidacao(ErroValidacaoTransacao erroValidacao) {
+		this.erroValidacao = erroValidacao;
 	}
 }

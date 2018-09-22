@@ -1,11 +1,11 @@
 package com.codesurfers.xpto.service;
 
-import com.codesurfers.xpto.model.Transacao;
+import com.codesurfers.xpto.model.TransacaoFinanceira;
 
 public class ValidacaoDepartamentoPagamento implements ValidacaoProcessor {
 
 	@Override
-	public Transacao executar(Transacao transacao) {
+	public TransacaoFinanceira executar(TransacaoFinanceira transacao) {
 		// TODO Auto-generated method stub
 		return null;
 	}
