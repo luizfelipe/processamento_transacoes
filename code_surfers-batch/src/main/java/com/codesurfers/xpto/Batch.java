@@ -23,6 +23,6 @@ public class Batch {
 		Step s2 = steps.get("processar_arquivo").<Transacao, Transacao>chunk(1000).reader(step2.reader())
 				.processor(step2.processor()).writer(step2.writer()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).build();
+		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).build();
 	}
 }
