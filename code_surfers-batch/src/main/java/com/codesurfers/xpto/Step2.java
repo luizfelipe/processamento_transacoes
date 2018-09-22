@@ -1,7 +1,10 @@
 package com.codesurfers.xpto;
 
+import java.io.IOException;
+
 import javax.persistence.EntityManagerFactory;
 
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -10,22 +13,21 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
 
 @Configuration
 public class Step2 {
 
-	@Value("file:data/transacoes_partition*.csv")
-	private Resource[] inputResources;
-
+	@Bean
+	@StepScope
 	public ItemReader<TransacaoFinanceira> reader() {
 		MultiResourceItemReader<TransacaoFinanceira> reader = new MultiResourceItemReader<TransacaoFinanceira>();
-		reader.setResources(inputResources);
+		reader.setResources(getResources());
 		reader.setDelegate(delegate());
 		return reader;
 	}
@@ -65,9 +67,15 @@ public class Step2 {
 		writer.setEntityManagerFactory(entityManagerFactory);
 		return writer;
 	}
-
-	public Integer obterNumeroArquivos() {
-		return inputResources.length;
+	
+	private Resource[] getResources() {
+		Resource[] inputResources = null;
+		try {
+			inputResources = new PathMatchingResourcePatternResolver().getResources("file:data/transacoes_partition*.csv");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return inputResources;
 	}
 
 }

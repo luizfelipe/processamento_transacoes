@@ -21,7 +21,7 @@ import com.codesurfers.xpto.model.TransacaoFinanceira;
 public class Batch {
 
 	@Bean
-	public Job job(JobBuilderFactory jobs, StepBuilderFactory steps, Step1 step1, Step2 step2,
+	public Job job(JobBuilderFactory jobs, StepBuilderFactory steps, Step1 step1, Step2 step2, Step3 step3,
 			EntityManagerFactory entityManagerFactory) {
 
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
@@ -32,12 +32,14 @@ public class Batch {
 		TaskExecutorPartitionHandler retVal = new TaskExecutorPartitionHandler();
 		retVal.setTaskExecutor(taskExecutor());
 		retVal.setStep(slave);
-		retVal.setGridSize(step2.obterNumeroArquivos());
+		retVal.setGridSize(3);
 
-		Step s2 = steps.get("partitionStep").partitioner("processar_arquivo", new Particionador())
+		Step s2 = steps.get("partitionStep").partitioner("carregar_arquivo_banco", new Particionador())
 				.partitionHandler(retVal).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).build();
+		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
+
+		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).next(s3).build();
 	}
 
 	@Bean

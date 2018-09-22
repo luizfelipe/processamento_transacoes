@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
+import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
 import com.codesurfers.xpto.model.enumerations.RemetenteTransacao;
 import com.codesurfers.xpto.model.enumerations.TipoTransacao;
 
@@ -34,6 +35,9 @@ public class TransacaoMapper implements FieldSetMapper<TransacaoFinanceira> {
 		transacao.setDestinatario(fieldSet.readString(DESTINATARIO));
 		transacao.setValor(fieldSet.readDouble(VALOR));
 		transacao.setTipoTransacao(TipoTransacao.valueOf(fieldSet.readString(TIPOTRANSACAO)));
+		transacao.setValido(true);
+		transacao.setErroValidacao(ErroValidacaoTransacao.SEM_ERRO);
+		transacao.setAnoArquivo(2018);
 		return transacao;
 	}
 
