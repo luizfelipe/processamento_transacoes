@@ -1,6 +1,6 @@
-package com.codesurfers.xpto.model;
+package com.codesurfers.xpto.dto;
 
-public class TransacaoFinanceiraDadosResponse {
+public class TransacaoFinanceiraDadosDTO {
 	
 	private Long semErro;
 	private Long regra1;
@@ -9,7 +9,7 @@ public class TransacaoFinanceiraDadosResponse {
 	private Long regra4;
 	
 	
-	public TransacaoFinanceiraDadosResponse(Long semErro, Long regra1, Long regra2, Long regra3, Long regra4) {
+	public TransacaoFinanceiraDadosDTO(Long semErro, Long regra1, Long regra2, Long regra3, Long regra4) {
 		super();
 		this.semErro = semErro;
 		this.regra1 = regra1;

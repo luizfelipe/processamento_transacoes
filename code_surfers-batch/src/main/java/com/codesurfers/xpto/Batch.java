@@ -11,7 +11,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.DefaultJobParametersValidator;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.partition.support.MultiResourcePartitioner;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.context.annotation.Bean;
@@ -55,23 +54,18 @@ public class Batch {
 		Step s4 = steps.get("gerar_log").<TransacaoFinanceira, TransacaoFinanceira>chunk(1000)
 				.reader(step4.reader(entityManagerFactory, null)).writer(step4.writer()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer())
-				.validator(new DefaultJobParametersValidator(new String[] { "ano" }, new String[] {})).start(s1)
-				.next(s2).next(s3).next(s4).build();
+		return jobs.get("job").validator(new DefaultJobParametersValidator(new String[] { "ano" }, new String[] {}))
+				.start(s1).next(s2).next(s3).next(s4).build();
 	}
 
 	@Bean
 	@StepScope
-	public MultiResourcePartitioner getParticionador() {
+	public MultiResourcePartitioner getParticionador() throws IOException {
 		MultiResourcePartitioner partitioner = new MultiResourcePartitioner();
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		Resource[] resources;
-		try {
-			resources = resolver.getResources("file:data/transacoes_partition*.csv");
-			partitioner.setResources(resources);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Resource[] resources = resolver.getResources("file:data/transacoes_partition*.csv");
+		partitioner.setResources(resources);
+
 		return partitioner;
 	}
 

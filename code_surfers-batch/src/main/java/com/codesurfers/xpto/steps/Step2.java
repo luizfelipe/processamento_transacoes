@@ -24,26 +24,21 @@ public class Step2 {
 	@StepScope
 	public FlatFileItemReader<TransacaoFinanceira> reader(@Value("#{stepExecutionContext['fileName']}") String file,
 			@Value("#{jobParameters['ano']}") Integer ano) throws MalformedURLException {
-		FlatFileItemReader<TransacaoFinanceira> reader = new FlatFileItemReader<TransacaoFinanceira>();
+		FlatFileItemReader<TransacaoFinanceira> reader = new FlatFileItemReader<>();
 		reader.setResource(new UrlResource(file));
 		reader.setStrict(true);
-		reader.setLineMapper(new DefaultLineMapper<TransacaoFinanceira>() {
-			{
-				setLineTokenizer(new DelimitedLineTokenizer(";") {
-					{
-						setNames(new String[] { "ID", "TIMESTAMP", "REMETENTE", "DESTINATARIO", "VALOR",
-								"TIPOTRANSACAO" });
-					}
-				});
-				setFieldSetMapper(new TransacaoMapper(ano));
-			}
-		});
+		DefaultLineMapper<TransacaoFinanceira> dlm = new DefaultLineMapper<>();
+		DelimitedLineTokenizer dlt = new DelimitedLineTokenizer(";");
+		dlt.setNames(new String[] { "ID", "TIMESTAMP", "REMETENTE", "DESTINATARIO", "VALOR", "TIPOTRANSACAO" });
+		dlm.setLineTokenizer(dlt);
+		dlm.setFieldSetMapper(new TransacaoMapper(ano));
+		reader.setLineMapper(dlm);
 		return reader;
 	}
 
 	@Bean(name = "step2-writer")
 	public JpaItemWriter<TransacaoFinanceira> writer(EntityManagerFactory entityManagerFactory) {
-		JpaItemWriter<TransacaoFinanceira> writer = new JpaItemWriter<TransacaoFinanceira>();
+		JpaItemWriter<TransacaoFinanceira> writer = new JpaItemWriter<>();
 		writer.setEntityManagerFactory(entityManagerFactory);
 		return writer;
 	}
