@@ -115,7 +115,7 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 
 - <a href="artefatos_executaveis/xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar</a>
 
-- <a href="Apache24.zip">Apache24.zip</a>
+- <a href="artefatos_executaveis/Apache24.zip">Apache24.zip</a>
 
 ### Executar o jar do batch: 
 
