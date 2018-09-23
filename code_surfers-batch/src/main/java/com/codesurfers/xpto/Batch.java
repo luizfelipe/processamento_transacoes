@@ -34,14 +34,14 @@ import com.codesurfers.xpto.steps.Step4;
 @PropertySource("file:batch-config/xpto.properties")
 public class Batch {
 
-	 private static final Logger LOGGER = LoggerFactory.getLogger(Batch.class);
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Batch.class);
+
 	@Bean
 	public Job job(JobBuilderFactory jobs, StepBuilderFactory steps, Step1 step1, Step2 step2, Step3 step3, Step4 step4,
 			EntityManagerFactory entityManagerFactory) throws Exception {
-		
+
 		LOGGER.info(String.format("Job iniciado às, args"));
-		
+
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
 
 		Step slave = steps.get("processar_arquivo").<TransacaoFinanceira, TransacaoFinanceira>chunk(1000)
@@ -66,16 +66,12 @@ public class Batch {
 
 	@Bean
 	@StepScope
-	public MultiResourcePartitioner getParticionador() {
+	public MultiResourcePartitioner getParticionador() throws IOException {
 		MultiResourcePartitioner partitioner = new MultiResourcePartitioner();
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		Resource[] resources;
-		try {
-			resources = resolver.getResources("file:data/transacoes_partition*.csv");
-			partitioner.setResources(resources);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Resource[] resources = resolver.getResources("file:data/transacoes_partition*.csv");
+		partitioner.setResources(resources);
+
 		return partitioner;
 	}
 
