@@ -109,8 +109,8 @@ public class TransacaoFinanceiraController {
 		Long regra2 = this.transacaoFinanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_002, ano);
 		Long regra3 = this.transacaoFinanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_003, ano);
 		Long regra4 = this.transacaoFinanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_004, ano);
-		
-		TransacoesFinanceiraClassificacaoValidacaoDTO dados = new TransacoesFinanceiraClassificacaoValidacaoDTO(semErro, regra1, regra2, regra3, regra4);
+		Long total = this.transacaoFinanceiraRepository.count();
+		TransacoesFinanceiraClassificacaoValidacaoDTO dados = new TransacoesFinanceiraClassificacaoValidacaoDTO(semErro, regra1, regra2, regra3, regra4, total);
 		return dados;
 
 	}

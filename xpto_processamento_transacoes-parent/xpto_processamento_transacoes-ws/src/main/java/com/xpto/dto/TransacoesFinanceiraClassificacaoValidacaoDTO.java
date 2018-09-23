@@ -7,15 +7,16 @@ public class TransacoesFinanceiraClassificacaoValidacaoDTO {
 	private Long regra2;
 	private Long regra3;
 	private Long regra4;
+	private Long total;
 	
-	
-	public TransacoesFinanceiraClassificacaoValidacaoDTO(Long semErro, Long regra1, Long regra2, Long regra3, Long regra4) {
+	public TransacoesFinanceiraClassificacaoValidacaoDTO(Long semErro, Long regra1, Long regra2, Long regra3, Long regra4, Long total) {
 		super();
 		this.semErro = semErro;
 		this.regra1 = regra1;
 		this.regra2 = regra2;
 		this.regra3 = regra3;
 		this.regra4 = regra4;
+		this.total = total;
 	}
 	
 	
@@ -49,6 +50,15 @@ public class TransacoesFinanceiraClassificacaoValidacaoDTO {
 	public void setRegra4(Long regra4) {
 		this.regra4 = regra4;
 	}
+
+	public Long getTotal() {
+		return total;
+	}
+	public void setTotal(Long total) {
+		this.total = total;
+	}
+	
+	
 	
 	
 	

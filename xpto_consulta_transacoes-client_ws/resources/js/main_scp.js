@@ -3,12 +3,13 @@ $(document).ready(function() {
 } );
 
 function preecherTransacoes(){
-	$.getJSON("http://localhost/ws/transacoes/dados", function(result){
+	$.getJSON("http://localhost/ws/transacoes/classificacao/validacao", function(result){
 		$('#transacoes_ok').html(result.semErro);
 		$('#transacoes_regra1').html(result.regra1);
 		$('#transacoes_regra2').html(result.regra2);
 		$('#transacoes_regra3').html(result.regra3);
 		$('#transacoes_regra4').html(result.regra4);
+		$('#transacoes_totais').html(result.total);
 
 		for(let i = 1; i <= 4; i++){
 			if( $('#transacoes_regra'+i).html() > 0 ){
@@ -21,7 +22,7 @@ function preecherTransacoes(){
 
 
 function preencherGrafico(){
-	$.getJSON("http://localhost/ws/transacoes/mensais", function(result){
+	$.getJSON("http://localhost/ws/transacoes/quantidade/mes", function(result){
        console.log(result.length);
        console.log(result);
        new Chart(document.getElementById("grafico"), {
@@ -91,7 +92,7 @@ function inicializarDataTable(validas){
         "searching": false,
         "lengthChange": false,
         "pageLength": 25,
-        "ajax": "http://localhost/ws/transacoes/datatablesFormat?validas="+validas,
+        "ajax": "http://localhost/ws/transacoes/format/datatables?validas="+validas,
         "columnDefs": [ {
 	        "targets": [ 6 ],
 	        "visible": !validas
