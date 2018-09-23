@@ -16,6 +16,7 @@ import org.springframework.batch.core.partition.support.MultiResourcePartitioner
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -28,6 +29,7 @@ import com.codesurfers.xpto.steps.Step3;
 
 @Configuration
 @EnableBatchProcessing
+@PropertySource("file:batch-config/xpto.properties")
 public class Batch {
 
 	@Bean
@@ -49,7 +51,7 @@ public class Batch {
 
 		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).next(s3).build();
+		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).build();
 	}
 
 	@Bean

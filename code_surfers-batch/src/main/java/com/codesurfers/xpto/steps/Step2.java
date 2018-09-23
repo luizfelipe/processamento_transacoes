@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -41,17 +40,6 @@ public class Step2 {
 			}
 		});
 		return reader;
-	}
-
-	@Bean
-	public ItemProcessor<TransacaoFinanceira, TransacaoFinanceira> processor() {
-		return new ItemProcessor<TransacaoFinanceira, TransacaoFinanceira>() {
-			@Override
-			public TransacaoFinanceira process(TransacaoFinanceira item) throws Exception {
-				System.out.println("Processado");
-				return item;
-			}
-		};
 	}
 
 	@Bean
