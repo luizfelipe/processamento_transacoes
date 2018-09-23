@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -34,13 +32,9 @@ import com.codesurfers.xpto.steps.Step4;
 @PropertySource("file:batch-config/xpto.properties")
 public class Batch {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Batch.class);
-
 	@Bean
 	public Job job(JobBuilderFactory jobs, StepBuilderFactory steps, Step1 step1, Step2 step2, Step3 step3, Step4 step4,
 			EntityManagerFactory entityManagerFactory) throws Exception {
-
-		LOGGER.info(String.format("Job iniciado às, args"));
 
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
 

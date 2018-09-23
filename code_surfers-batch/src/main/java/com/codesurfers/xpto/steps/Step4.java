@@ -23,7 +23,7 @@ public class Step4 {
 	@Bean(name = "step4-reader")
 	@StepScope
 	public JpaPagingItemReader<TransacaoFinanceira> reader(EntityManagerFactory entityManagerFactory,
-			@Value("#{jobParameters['ano']}") Integer ano) throws Exception {
+			@Value("#{jobParameters['ano']}") Integer ano) throws Exception  {
 		JpaPagingItemReader<TransacaoFinanceira> itemReader = new JpaPagingItemReader<>();
 		String query = "SELECT tf FROM TransacaoFinanceira tf WHERE tf.valido = false and tf.anoArquivo = " + ano
 				+ " ORDER BY tf.erroValidacao";
@@ -42,9 +42,9 @@ public class Step4 {
 		StringBuilder sb = new StringBuilder();
 		sb.append("log/").append(new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date())).append(".txt");
 		flatFileItemWriter.setResource(new FileSystemResource(sb.toString()));
-		BeanWrapperFieldExtractor<TransacaoFinanceira> bwfe = new BeanWrapperFieldExtractor<TransacaoFinanceira>();
+		BeanWrapperFieldExtractor<TransacaoFinanceira> bwfe = new BeanWrapperFieldExtractor<>();
 		bwfe.setNames(new String[] { "id", "erroValidacao.descricao" });
-		DelimitedLineAggregator<TransacaoFinanceira> dla = new DelimitedLineAggregator<TransacaoFinanceira>();
+		DelimitedLineAggregator<TransacaoFinanceira> dla = new DelimitedLineAggregator<>();
 		dla.setDelimiter(" = ");
 		dla.setFieldExtractor(bwfe);
 		flatFileItemWriter.setLineAggregator(dla);
