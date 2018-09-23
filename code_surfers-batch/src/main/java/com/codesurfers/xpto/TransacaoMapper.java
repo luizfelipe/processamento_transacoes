@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.jboss.logging.Logger;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.util.StringUtils;
@@ -56,7 +57,7 @@ public class TransacaoMapper implements FieldSetMapper<TransacaoFinanceira> {
 			cal.setTime(df.parse(dateStr));
 			return cal;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Logger.getLogger(TransacaoFinanceira.class).error(e);
 		}
 		return null;
 	}
