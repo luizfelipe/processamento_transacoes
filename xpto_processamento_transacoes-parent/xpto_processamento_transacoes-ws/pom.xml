@@ -57,7 +57,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.xpto.XptoProcessamentoTransacoesWsApplication</mainClass>
+							<mainClass>com.xpto.XptoProcessamentoTransacoesBatchApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

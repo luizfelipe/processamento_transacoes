@@ -15,7 +15,6 @@ import org.springframework.batch.core.partition.support.MultiResourcePartitioner
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -29,7 +28,6 @@ import com.xpto.steps.Step4;
 
 @Configuration
 @EnableBatchProcessing
-@PropertySource("file:batch-config/xpto.properties")
 public class Batch {
 
 	@Bean
