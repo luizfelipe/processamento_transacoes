@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xpto.dto.TransacaoFinanceiraDadosDTO;
+import com.xpto.dto.TransacoesFinanceiraClassificacaoValidacaoDTO;
 import com.xpto.dto.TransacoesFinanceirasDatatableDTO;
 import com.xpto.model.TransacaoFinanceira;
 import com.xpto.model.enumerations.ErroValidacaoTransacao;
@@ -45,7 +45,7 @@ public class TransacaoFinanceiraController {
 		return paginaTransacoes.getContent();
 	}
 	
-	@RequestMapping(value = "/datatablesFormat")
+	@RequestMapping(value = "/format/datatables")
 	public TransacoesFinanceirasDatatableDTO buscarValidosDatatablesFormat(
 			@RequestParam(value = "start", required = false, defaultValue = "0") int start,
 			@RequestParam(value = "validas", required = false, defaultValue = "true") boolean validas,
@@ -88,8 +88,8 @@ public class TransacaoFinanceiraController {
 		return transacaoDTO;
 	}
 	
-	@RequestMapping(value = "/mensais")
-	public List<Long> buscarTransacoesMensais(
+	@RequestMapping(value = "/quantidade/mes")
+	public List<Long> buscarQuantidadeTransacoesMensais(
 			@RequestParam(value = "ano", required = false, defaultValue = "2018") int ano) {
 		List<Tuple> lista = this.transacaoFinanceiraRepository.listTransacoesPorMes(ano);
 		List<Long> result = new ArrayList<>();
@@ -100,8 +100,8 @@ public class TransacaoFinanceiraController {
 
 	}
 	
-	@RequestMapping(value = "/dados")
-	public TransacaoFinanceiraDadosDTO buscarDadosPainel(
+	@RequestMapping(value = "/classificacao/validacao")
+	public TransacoesFinanceiraClassificacaoValidacaoDTO buscarDadosPainel(
 			@RequestParam(value = "ano", required = false, defaultValue = "2018") int ano) {
 		
 		Long semErro = this.transacaoFinanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.SEM_ERRO, ano);
@@ -110,7 +110,7 @@ public class TransacaoFinanceiraController {
 		Long regra3 = this.transacaoFinanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_003, ano);
 		Long regra4 = this.transacaoFinanceiraRepository.countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao.ERRO_004, ano);
 		
-		TransacaoFinanceiraDadosDTO dados = new TransacaoFinanceiraDadosDTO(semErro, regra1, regra2, regra3, regra4);
+		TransacoesFinanceiraClassificacaoValidacaoDTO dados = new TransacoesFinanceiraClassificacaoValidacaoDTO(semErro, regra1, regra2, regra3, regra4);
 		return dados;
 
 	}
