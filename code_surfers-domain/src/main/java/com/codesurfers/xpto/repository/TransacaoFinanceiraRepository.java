@@ -4,25 +4,28 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
 import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
 import com.codesurfers.xpto.model.enumerations.TipoTransacao;
 
-public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFinanceira, String> {
+public interface TransacaoFinanceiraRepository extends PagingAndSortingRepository<TransacaoFinanceira, String> {
 
-	List<TransacaoFinanceira> findByValidoTrue();
+	Page<TransacaoFinanceira> findByValidoTrue(Pageable pageable);
 	
 	//TODO: Temporário
 	List<TransacaoFinanceira> findTop5000ByValidoTrue();
 	
 	List<TransacaoFinanceira> findByTipoTransacaoAndAnoArquivo(TipoTransacao tipoTransacao, int ano);
 	
-	Long countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao erro, int ano);		
+	Long countByErroValidacaoAndAnoArquivo(ErroValidacaoTransacao erro, int ano);	
+	
 	
 	@Transactional
 	@Modifying(clearAutomatically = true)
@@ -87,7 +90,5 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 			"			) INVALIDOS" + 
 			"       )", nativeQuery = true)
 	int updatePagamentosInvalidos(@Param("anoArquivo") int anoArquivo);
-	
-	
 	
 }
