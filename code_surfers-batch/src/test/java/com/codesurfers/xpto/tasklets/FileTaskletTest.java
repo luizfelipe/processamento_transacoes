@@ -14,6 +14,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -24,6 +26,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 public class FileTaskletTest {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileTaskletTest.class);
+	
 	private FileTasklet tasklet = new FileTasklet();
 
 	private StepContribution stepContribution;
@@ -61,8 +65,7 @@ public class FileTaskletTest {
 		try {
 			tasklet.execute(stepContribution, chunkContext);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 
 		File[] files = workingDirectoryFolder.listFiles(new FilenameFilter() {

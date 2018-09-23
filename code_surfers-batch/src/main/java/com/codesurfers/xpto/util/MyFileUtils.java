@@ -13,9 +13,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyFileUtils {
-
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyFileUtils.class);
+	
 	public static void unzipFile(String zipFilePath, String unzippedFilePath) throws IOException {
 		File fileDir = new File(unzippedFilePath);
 		if (!fileDir.exists())
@@ -43,7 +47,7 @@ public class MyFileUtils {
 			zipInputStream.close();
 			fileInputStream.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -90,7 +94,7 @@ public class MyFileUtils {
 				inputBufferedReader.close();
 			}
 		} catch (final IOException ioe) {
-			// ignore
+			LOGGER.error(ioe.getMessage());
 		}
 	}
 
