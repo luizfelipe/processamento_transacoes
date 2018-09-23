@@ -54,8 +54,6 @@ public class Step1 {
 	@Value("${partitioner.lines.per.file}")
 	private Integer numberOfLines;
 
-	private File zipFile;
-
 	@Bean
 	@StepScope
 	public Tasklet baixarEDescompactarArquivo() {
@@ -68,12 +66,11 @@ public class Step1 {
 					// TODO Verificar se existe uma possibilidade melhor.
 					trustAllCertsManager();
 
-					zipFile = new File(pathToZip);
+					File zipFile = new File(pathToZip);
 					FileUtils.copyURLToFile(new URL(hackathonFileUrl), zipFile);
 
 					MyFileUtils.unzipFile(pathToZip, pathToFile);
-
-					partitionateFile();
+					MyFileUtils.partitionFile(fileName, fileExtension, workingDirectory, numberOfLines);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -81,33 +78,6 @@ public class Step1 {
 				return RepeatStatus.FINISHED;
 			}
 		};
-	}
-
-	/**
-	 * Descompacta o arquivo baixado
-	 * 
-	 * @throws IOException
-	 */
-	public void unzipFile() throws IOException {
-		if (zipFile != null) {
-			byte[] buffer = new byte[1024];
-			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile.getPath()));
-			ZipEntry zipEntry = zis.getNextEntry();
-			while (zipEntry != null) {
-				String fileName = zipEntry.getName();
-				File newFile = new File(String.format("%s%s%s", workingDirectory, File.separator, filePath));
-				FileOutputStream fos = new FileOutputStream(newFile);
-				int len;
-				while ((len = zis.read(buffer)) > 0) {
-					fos.write(buffer, 0, len);
-				}
-				fos.close();
-				zipEntry = zis.getNextEntry();
-			}
-			zis.closeEntry();
-			zis.close();
-		}
-
 	}
 
 	/**
@@ -134,52 +104,6 @@ public class Step1 {
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 		} catch (Exception e) {
 
-		}
-	}
-
-	// TODO Refatorar metodo
-	private void partitionateFile() throws IOException {
-
-		File inputFile = new File(String.format("%s%s%s", workingDirectory, File.separator, filePath));
-
-		int lineCount = 1;
-		int fileCount = 1;
-		List<String> lines = new ArrayList<>();
-
-		String line = "";
-
-		FileInputStream fileInputStream = new FileInputStream(inputFile);
-		InputStreamReader inputStreamFileReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
-		BufferedReader inputBufferedReader = new BufferedReader(inputStreamFileReader);
-
-		while ((line = inputBufferedReader.readLine()) != null) {
-			if ((lineCount == 1 && fileCount == 1)) {
-				lineCount++;
-				continue;
-			}
-
-			if (lineCount == numberOfLines) {
-				lineCount = 0;
-				FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", workingDirectory, File.separator,
-						fileName, fileCount, fileExtension)), lines);
-				lines = new ArrayList<String>();
-				fileCount++;
-			}
-			lines.add(line);
-			lineCount++;
-		}
-
-		if (!lines.isEmpty()) {
-			FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", workingDirectory, File.separator,
-					fileName, fileCount, fileExtension)), lines);
-		}
-
-		try {
-			if (inputBufferedReader != null) {
-				inputBufferedReader.close();
-			}
-		} catch (final IOException ioe) {
-			// ignore
 		}
 	}
 
