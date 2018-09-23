@@ -42,16 +42,12 @@ public class Step4 {
 		StringBuilder sb = new StringBuilder();
 		sb.append("log/").append(new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date())).append(".txt");
 		flatFileItemWriter.setResource(new FileSystemResource(sb.toString()));
-		flatFileItemWriter.setLineAggregator(new DelimitedLineAggregator<TransacaoFinanceira>() {
-			{
-				setDelimiter(" = ");
-				setFieldExtractor(new BeanWrapperFieldExtractor<TransacaoFinanceira>() {
-					{
-						setNames(new String[] { "id", "erroValidacao.descricao" });
-					}
-				});
-			}
-		});
+		BeanWrapperFieldExtractor<TransacaoFinanceira> bwfe = new BeanWrapperFieldExtractor<TransacaoFinanceira>();
+		bwfe.setNames(new String[] { "id", "erroValidacao.descricao" });
+		DelimitedLineAggregator<TransacaoFinanceira> dla = new DelimitedLineAggregator<TransacaoFinanceira>();
+		dla.setDelimiter(" = ");
+		dla.setFieldExtractor(bwfe);
+		flatFileItemWriter.setLineAggregator(dla);
 		flatFileItemWriter.setAppendAllowed(true);
 		flatFileItemWriter.setShouldDeleteIfEmpty(true);
 		return flatFileItemWriter;
