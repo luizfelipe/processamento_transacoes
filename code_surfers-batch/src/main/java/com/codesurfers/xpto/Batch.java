@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.job.DefaultJobParametersValidator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.partition.support.MultiResourcePartitioner;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
@@ -34,7 +35,7 @@ public class Batch {
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
 
 		Step slave = steps.get("processar_arquivo").<TransacaoFinanceira, TransacaoFinanceira>chunk(1000)
-				.reader(step2.reader(null)).writer(step2.writer(entityManagerFactory)).build();
+				.reader(step2.reader(null, null)).writer(step2.writer(entityManagerFactory)).build();
 
 		TaskExecutorPartitionHandler retVal = new TaskExecutorPartitionHandler();
 		retVal.setTaskExecutor(new SimpleAsyncTaskExecutor());
@@ -46,7 +47,9 @@ public class Batch {
 
 		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).next(s3).build();
+		return jobs.get("job").incrementer(new RunIdIncrementer())
+				.validator(new DefaultJobParametersValidator(new String[] { "ano" }, new String[] {})).start(s1)
+				.next(s2).next(s3).build();
 	}
 
 	@Bean

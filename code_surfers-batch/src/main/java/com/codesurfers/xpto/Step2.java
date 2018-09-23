@@ -23,8 +23,8 @@ public class Step2 {
 
 	@Bean
 	@StepScope
-	public FlatFileItemReader<TransacaoFinanceira> reader(@Value("#{stepExecutionContext['fileName']}") String file)
-			throws MalformedURLException {
+	public FlatFileItemReader<TransacaoFinanceira> reader(@Value("#{stepExecutionContext['fileName']}") String file,
+			@Value("#{jobParameters['ano']}") Integer ano) throws MalformedURLException {
 		FlatFileItemReader<TransacaoFinanceira> reader = new FlatFileItemReader<TransacaoFinanceira>();
 		reader.setResource(new UrlResource(file));
 		reader.setStrict(true);
@@ -36,7 +36,7 @@ public class Step2 {
 								"TIPOTRANSACAO" });
 					}
 				});
-				setFieldSetMapper(new TransacaoMapper());
+				setFieldSetMapper(new TransacaoMapper(ano));
 			}
 		});
 		return reader;
