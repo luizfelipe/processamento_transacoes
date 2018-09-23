@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.codesurfers.xpto.model.TransacaoFinanceira;
 import com.codesurfers.xpto.model.enumerations.ErroValidacaoTransacao;
 import com.codesurfers.xpto.model.enumerations.TipoTransacao;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +40,7 @@ public class TransacaoFinanceiraRepositoryTest {
 	private static final int ANO_ARQUIVO = 2018;
 
 	@Before
-	public void setup() throws JsonParseException, JsonMappingException, IOException {
+	public void setup() throws JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		List<TransacaoFinanceira> transacoes = objectMapper.readValue(this.stateFile.getInputStream(),
