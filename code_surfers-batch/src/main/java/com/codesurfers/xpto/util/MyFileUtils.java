@@ -52,23 +52,16 @@ public class MyFileUtils {
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			if (zipInputStream != null) {
-				zipInputStream.closeEntry();
-			}
-
-			if (zipInputStream != null) {
-				zipInputStream.close();
-			}
-
-			if (fileInputStream != null) {
-				fileInputStream.close();
-			}
+			fileInputStream.close();
+			zipInputStream.close();
 		}
 	}
 
 	public static void partitionFile(String fileName, String fileExtension, String dir, Integer numberOfLines)
 			throws IOException {
 		BufferedReader inputBufferedReader = null;
+		FileInputStream fileInputStream = null;
+		InputStreamReader inputStreamFileReader = null;
 		try {
 			File inputFile = new File(String.format("%s%s%s%s", dir, File.separator, fileName, fileExtension));
 
@@ -78,8 +71,8 @@ public class MyFileUtils {
 
 			String line = "";
 
-			FileInputStream fileInputStream = new FileInputStream(inputFile);
-			InputStreamReader inputStreamFileReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
+			fileInputStream = new FileInputStream(inputFile);
+			inputStreamFileReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
 			inputBufferedReader = new BufferedReader(inputStreamFileReader);
 
 			while ((line = inputBufferedReader.readLine()) != null) {
@@ -111,6 +104,14 @@ public class MyFileUtils {
 			if (inputBufferedReader != null) {
 				inputBufferedReader.close();
 			}
+
+			if (fileInputStream != null) {
+				fileInputStream.close();
+			}
+			if (inputStreamFileReader != null) {
+				inputStreamFileReader.close();
+			}
+
 		}
 	}
 
