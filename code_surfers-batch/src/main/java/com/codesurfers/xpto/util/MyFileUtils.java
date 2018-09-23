@@ -28,38 +28,25 @@ public class MyFileUtils {
 
 		byte[] buffer = new byte[1024];
 
-		FileInputStream fileInputStream = null;
-		ZipInputStream zipInputStream = null;
-		ZipEntry zipEntry = null;
-		try {
-			try {
-				fileInputStream = new FileInputStream(zipFilePath);
-				zipInputStream = new ZipInputStream(fileInputStream);
+		try (FileInputStream fileInputStream = new FileInputStream(zipFilePath);
+				ZipInputStream zipInputStream = new ZipInputStream(fileInputStream)) {
+
+			ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+			while (zipEntry != null) {
+				String fileName = zipEntry.getName();
+				File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
+				new File(newFile.getParent()).mkdirs();
+
+				FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+				int length;
+				while ((length = zipInputStream.read(buffer)) > 0) {
+					fileOutputStream.write(buffer, 0, length);
+				}
+
+				fileOutputStream.close();
+				zipInputStream.closeEntry();
 				zipEntry = zipInputStream.getNextEntry();
-				while (zipEntry != null) {
-					String fileName = zipEntry.getName();
-					File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
-					new File(newFile.getParent()).mkdirs();
-
-					FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-					int length;
-					while ((length = zipInputStream.read(buffer)) > 0) {
-						fileOutputStream.write(buffer, 0, length);
-					}
-
-					fileOutputStream.close();
-					zipInputStream.closeEntry();
-					zipEntry = zipInputStream.getNextEntry();
-				}
-			} finally {
-				if (fileInputStream != null) {
-					fileInputStream.close();
-				}
-
-				if (zipInputStream != null) {
-					zipInputStream.close();
-				}
-
 			}
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
@@ -68,9 +55,6 @@ public class MyFileUtils {
 
 	public static void partitionFile(String fileName, String fileExtension, String dir, Integer numberOfLines)
 			throws IOException {
-		BufferedReader inputBufferedReader = null;
-		FileInputStream fileInputStream = null;
-		InputStreamReader inputStreamFileReader = null;
 		try {
 			File inputFile = new File(String.format("%s%s%s%s", dir, File.separator, fileName, fileExtension));
 
@@ -79,11 +63,10 @@ public class MyFileUtils {
 			List<String> lines = new ArrayList<>();
 
 			String line = "";
-			try {
-
-				fileInputStream = new FileInputStream(inputFile);
-				inputStreamFileReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
-				inputBufferedReader = new BufferedReader(inputStreamFileReader);
+			try (FileInputStream fileInputStream = new FileInputStream(inputFile);
+					InputStreamReader inputStreamFileReader = new InputStreamReader(fileInputStream,
+							Charset.forName("UTF-8"));
+					BufferedReader inputBufferedReader = new BufferedReader(inputStreamFileReader)) {
 
 				while ((line = inputBufferedReader.readLine()) != null) {
 					if ((lineCount == 1 && fileCount == 1)) {
@@ -106,20 +89,7 @@ public class MyFileUtils {
 					FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", dir, File.separator, fileName,
 							fileCount, fileExtension)), lines);
 				}
-			} finally {
-				if (inputBufferedReader != null) {
-					inputBufferedReader.close();
-				}
-
-				if (fileInputStream != null) {
-					fileInputStream.close();
-				}
-				if (inputStreamFileReader != null) {
-					inputStreamFileReader.close();
-				}
-
 			}
-
 		} catch (final IOException ioe) {
 			LOGGER.error(ioe.getMessage());
 		}
