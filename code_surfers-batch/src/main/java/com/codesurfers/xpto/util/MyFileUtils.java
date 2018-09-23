@@ -32,28 +32,37 @@ public class MyFileUtils {
 		ZipInputStream zipInputStream = null;
 		ZipEntry zipEntry = null;
 		try {
-			fileInputStream = new FileInputStream(zipFilePath);
-			zipInputStream = new ZipInputStream(fileInputStream);
-			zipEntry = zipInputStream.getNextEntry();
-			while (zipEntry != null) {
-				String fileName = zipEntry.getName();
-				File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
-				new File(newFile.getParent()).mkdirs();
-				FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-				int length;
-				while ((length = zipInputStream.read(buffer)) > 0) {
-					fileOutputStream.write(buffer, 0, length);
-				}
-				fileOutputStream.close();
-				zipInputStream.closeEntry();
+			try {
+				fileInputStream = new FileInputStream(zipFilePath);
+				zipInputStream = new ZipInputStream(fileInputStream);
 				zipEntry = zipInputStream.getNextEntry();
-			}
+				while (zipEntry != null) {
+					String fileName = zipEntry.getName();
+					File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
+					new File(newFile.getParent()).mkdirs();
 
+					FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+					int length;
+					while ((length = zipInputStream.read(buffer)) > 0) {
+						fileOutputStream.write(buffer, 0, length);
+					}
+
+					fileOutputStream.close();
+					zipInputStream.closeEntry();
+					zipEntry = zipInputStream.getNextEntry();
+				}
+			} finally {
+				if (fileInputStream != null) {
+					fileInputStream.close();
+				}
+
+				if (zipInputStream != null) {
+					zipInputStream.close();
+				}
+
+			}
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
-		} finally {
-			fileInputStream.close();
-			zipInputStream.close();
 		}
 	}
 
