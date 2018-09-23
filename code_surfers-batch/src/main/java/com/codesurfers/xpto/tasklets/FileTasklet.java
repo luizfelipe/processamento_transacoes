@@ -76,9 +76,11 @@ public class FileTasklet implements Tasklet {
 			}
 
 			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+				// Workaround para não validar certificado
 			}
 
 			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+				// Workaround para não validar certificado
 			}
 		} };
 
