@@ -22,6 +22,9 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
+import com.codesurfers.xpto.steps.Step1;
+import com.codesurfers.xpto.steps.Step2;
+import com.codesurfers.xpto.steps.Step3;
 
 @Configuration
 @EnableBatchProcessing
@@ -46,7 +49,7 @@ public class Batch {
 
 		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).build();
+		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).next(s3).build();
 	}
 
 	@Bean

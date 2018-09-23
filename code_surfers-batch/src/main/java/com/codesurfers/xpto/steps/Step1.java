@@ -1,17 +1,8 @@
-package com.codesurfers.xpto;
+package com.codesurfers.xpto.steps;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -63,7 +54,6 @@ public class Step1 {
 				String pathToZip = String.format("%s%s%s", workingDirectory, File.separator, zipFilePath);
 				String pathToFile = String.format("%s%s", workingDirectory, File.separator);
 				try {
-					// TODO Verificar se existe uma possibilidade melhor.
 					trustAllCertsManager();
 
 					File zipFile = new File(pathToZip);
@@ -80,9 +70,6 @@ public class Step1 {
 		};
 	}
 
-	/**
-	 *  
-	 */
 	private void trustAllCertsManager() {
 		// Create a trust manager that does not validate certificate chains
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
