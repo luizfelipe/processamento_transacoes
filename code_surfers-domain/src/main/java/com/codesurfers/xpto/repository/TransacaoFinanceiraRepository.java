@@ -19,8 +19,7 @@ public interface TransacaoFinanceiraRepository extends PagingAndSortingRepositor
 
 	Page<TransacaoFinanceira> findByValidoTrue(Pageable pageable);
 	
-	//TODO: Temporário
-	List<TransacaoFinanceira> findTop5000ByValidoTrue();
+	Long countByValidoTrue();
 	
 	List<TransacaoFinanceira> findByTipoTransacaoAndAnoArquivo(TipoTransacao tipoTransacao, int ano);
 	
