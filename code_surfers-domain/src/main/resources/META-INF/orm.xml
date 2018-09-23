@@ -17,6 +17,12 @@
        </query>
     </named-query>
     
+    <named-query name="TransacaoFinanceira.findPaginacao">
+        <query>
+        	SELECT t from TransacaoFinanceira t where t.valido=:valido
+       </query>
+    </named-query>
+    
     
      <named-query name="TransacaoFinanceira.updateRetiradasInvalidas">
         <query> UPDATE TransacaoFinanceira t SET t.valido = false, t.erroValidacao = 3 WHERE t.id IN 

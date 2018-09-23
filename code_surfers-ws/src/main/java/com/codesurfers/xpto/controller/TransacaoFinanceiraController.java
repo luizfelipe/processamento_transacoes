@@ -40,7 +40,7 @@ public class TransacaoFinanceiraController {
 
 		Pageable pageableRequest = PageRequest.of(page, limit);
 
-		Page<TransacaoFinanceira> paginaTransacoes = transacaoFinanceiraRepository.findByValidoTrue(pageableRequest);
+		Page<TransacaoFinanceira> paginaTransacoes = transacaoFinanceiraRepository.findPaginacao(true,pageableRequest);
 
 		return paginaTransacoes.getContent();
 	}
@@ -48,22 +48,26 @@ public class TransacaoFinanceiraController {
 	@RequestMapping(value = "/datatablesFormat")
 	public TransacoesFinanceirasDatatableDTO buscarValidosDatatablesFormat(
 			@RequestParam(value = "start", required = false, defaultValue = "0") int start,
+			@RequestParam(value = "validas", required = false, defaultValue = "true") boolean validas,
 			@RequestParam(value = "length", required = false, defaultValue = "25") int length,
 			@RequestParam(value = "draw", required = true) int draw) {
 
 		int page = start/length;
 		
 		Pageable pageableRequest = PageRequest.of(page, length);
-
-		Long quantidadeTransacoesValidas = transacaoFinanceiraRepository.countByValidoTrue();
-		
-		Page<TransacaoFinanceira> paginaTransacoes = transacaoFinanceiraRepository.findByValidoTrue(pageableRequest);
+		Long quantidade = 0L;
+		if( validas ) {
+			quantidade = transacaoFinanceiraRepository.countByValidoTrue();
+		}else {
+			quantidade = transacaoFinanceiraRepository.countByValidoFalse();
+		}
+		Page<TransacaoFinanceira> paginaTransacoes = transacaoFinanceiraRepository.findPaginacao(validas,pageableRequest);
 		
 		TransacoesFinanceirasDatatableDTO transacaoDTO = new TransacoesFinanceirasDatatableDTO();
 		draw++;
 		transacaoDTO.setDraw(draw);
-		transacaoDTO.setRecordsTotal(quantidadeTransacoesValidas.intValue());
-		transacaoDTO.setRecordsFiltered(quantidadeTransacoesValidas.intValue());
+		transacaoDTO.setRecordsTotal(quantidade.intValue());
+		transacaoDTO.setRecordsFiltered(quantidade.intValue());
 		
 		List<TransacaoFinanceira> transacoes = paginaTransacoes.getContent();
 		
@@ -77,7 +81,7 @@ public class TransacaoFinanceiraController {
 			valoresAtributos.add(transacaoFinanceira.getValor().toString());
 			valoresAtributos.add(transacaoFinanceira.getRemetente().toString());
 			valoresAtributos.add(transacaoFinanceira.getTipoTransacao().toString());
-			
+			valoresAtributos.add(transacaoFinanceira.getErroValidacao().toString());
 			transacaoDTO.getData().add(valoresAtributos);
 		}
 

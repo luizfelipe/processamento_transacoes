@@ -36,6 +36,9 @@
     <!-- Custom Theme Style -->
     <link href="resources/vendors/gentelella/build/css/custom.min.css" rel="stylesheet">
 
+     <!-- Custom Theme Style -->
+    <link href="resources/build/css/nosso.css" rel="stylesheet">
+
 </head>
 
 
@@ -61,7 +64,8 @@
 			                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
 			                    <ul class="nav child_menu">
 			                      <li><a onclick="carregarDashbaord()">Dashboard</a></li>
-			                      <li><a onclick="carregarLista()">Lista</a></li>
+			                      <li><a onclick="carregarLista(true)">Transacoes Válidas</a></li>
+                                  <li><a onclick="carregarLista(false)">Transacoes Inválidas</a></li>
 			                    </ul>
 			                  </li>
 			                </ul>

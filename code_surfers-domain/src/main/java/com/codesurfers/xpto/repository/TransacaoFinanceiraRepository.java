@@ -22,13 +22,19 @@ public interface TransacaoFinanceiraRepository extends PagingAndSortingRepositor
 	 * @param pageable pagina
 	 * @return lista de transacoes
 	 */
-	Page<TransacaoFinanceira> findByValidoTrue(Pageable pageable);
+	Page<TransacaoFinanceira> findPaginacao(Boolean valido, Pageable pageable);
 	
 	/**
 	 * Conta quantas transacoes sao validas
-	 * @return
+	 * @return quantidade
 	 */
 	Long countByValidoTrue();
+	
+	/**
+	 * Conta quantas transacoes sao invalidas
+	 * @return quantidade
+	 */
+	Long countByValidoFalse();
 	
 	/**
 	 * Lista transacoes por tipo e ano que o arquivo foi carregado

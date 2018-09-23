@@ -125,14 +125,14 @@ public class TransacaoFinanceiraRepositoryTest {
 	@Test
 	public void testarPaginacaoTotal() {
 		Pageable pageableRequest = PageRequest.of(0, 5);
-		Page<TransacaoFinanceira> paginaTransacoes = transacaoFincanceiraRepository.findByValidoTrue(pageableRequest);
+		Page<TransacaoFinanceira> paginaTransacoes = transacaoFincanceiraRepository.findPaginacao(true,pageableRequest);
 		assertEquals(5, paginaTransacoes.getContent().size());
 	}
 
 	@Test
 	public void testarPaginacaoElementosPagina1() {
 		Pageable pageableRequest = PageRequest.of(0, 5);
-		Page<TransacaoFinanceira> paginaTransacoes = transacaoFincanceiraRepository.findByValidoTrue(pageableRequest);
+		Page<TransacaoFinanceira> paginaTransacoes = transacaoFincanceiraRepository.findPaginacao(true,pageableRequest);
 		assertEquals("2d500b5a-7fe6-4a9c-9569-06691b978ce9", paginaTransacoes.getContent().get(0).getId());
 		assertEquals("ca8f383d-ee47-4f39-b110-d994cf0f4c00",
 				paginaTransacoes.getContent().get(paginaTransacoes.getContent().size() - 1).getId());
@@ -141,7 +141,7 @@ public class TransacaoFinanceiraRepositoryTest {
 	@Test
 	public void testarPaginacaoElementosPagina2() {
 		Pageable pageableRequest = PageRequest.of(1, 5);
-		Page<TransacaoFinanceira> paginaTransacoes = transacaoFincanceiraRepository.findByValidoTrue(pageableRequest);
+		Page<TransacaoFinanceira> paginaTransacoes = transacaoFincanceiraRepository.findPaginacao(true,pageableRequest);
 		assertEquals("70dc1b6d-ef98-4464-b19d-dd0843eb5eaf", paginaTransacoes.getContent().get(0).getId());
 		assertEquals("5e09e19e-58a7-49cb-a5dc-73a25701e0e9",
 				paginaTransacoes.getContent().get(paginaTransacoes.getContent().size() - 1).getId());
