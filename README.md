@@ -52,16 +52,6 @@ Como se pode observar no diagrama apresentado acima, a solução ```xpto-process
 
 
 
-## Instruções de Desenvolvimento
-
-> Listar os procedimentos necessários para configuração do ambiente de desenvolvimento e ferramentas de programação
-
-
-## Procedimentos para Deploy e Implantação
-
-> Listar os procedimentos necessários para deploy e implantação do produto em ambiente produtivo 
-
-
 ## Facilidade para Auditoria
 
 Este projeto contém um módulo web para realizar consultas. Construído em cima do framework Gentelella.
@@ -77,3 +67,26 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 ![Painel](docs/tela_2.png)
 
 ![Painel](docs/tela_3.png)
+
+
+
+## Instruções de Desenvolvimento
+
+### Ferramentas e Softwares
+ - Java 8 - Baixar e Instalar a versão 1.8 do JDK da Oracle, na seção Oracle Java Archive; 
+ - Maven - Efetuar o download de uma versão do Maven compatível com Java 1.8 (a utilizada foi 3.2.3);
+ - Spring Tool Suite - É indicado a utilização do STS pela boa integração com as tecnologias utilizadas;
+ - GIT - Versão mais recente.
+ - Instalação do Node, Node Package Manager (npm) e Bower;
+ - Instalação do PostgreSQL
+
+### Setup do Ambiente
+ - Efetuar o clone do projeto para o seu workspace - https://hackathon.dtplabs.in/desafio/code-surfers/xpto-processamento_transacoes.git
+ - Acessar a raiz do modulo parent <b>xpto_processamento_transacoes-parent</b> do projeto e executar os comandos ```mvn package```;
+ - Após configurado o bower, você deve ir na raiz do projeto <b>xpto_consulta_transacoes-client_ws</b> e executar o ```bower install``` para baixar as dependências do painel web.
+
+## Procedimentos para Deploy e Implantação
+
+> Listar os procedimentos necessários para deploy e implantação do produto em ambiente produtivo 
+
+
