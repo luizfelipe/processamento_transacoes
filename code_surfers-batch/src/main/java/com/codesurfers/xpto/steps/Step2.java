@@ -38,7 +38,7 @@ public class Step2 {
 
 	@Bean(name = "step2-writer")
 	public JpaItemWriter<TransacaoFinanceira> writer(EntityManagerFactory entityManagerFactory) {
-		JpaItemWriter<TransacaoFinanceira> writer = new JpaItemWriter<TransacaoFinanceira>();
+		JpaItemWriter<TransacaoFinanceira> writer = new JpaItemWriter<>();
 		writer.setEntityManagerFactory(entityManagerFactory);
 		return writer;
 	}

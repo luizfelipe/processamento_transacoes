@@ -78,7 +78,7 @@ public class TransacaoFinanceira {
 		this.tipoTransacao = tipoTransacao;
 	}
 	
-	public Boolean getValido() {
+	public Boolean isValido() {
 		return valido;
 	}
 	public void setValido(Boolean valido) {
