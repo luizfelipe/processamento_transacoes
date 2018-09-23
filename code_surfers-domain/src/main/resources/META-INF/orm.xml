@@ -43,9 +43,9 @@
     
     <named-native-query name="TransacaoFinanceira.updatePagamentosInvalidos">
         <query>
-        	 UPDATE transacao_financeira trans   
-			   SET trans.erro_validacao = 2, trans.valido = false    
-			   WHERE trans.id in (   
+        	 UPDATE transacao_financeira
+			   SET erro_validacao = 2, valido = false    
+			   WHERE id in (   
 				   SELECT INVALIDOS.id FROM (  
 						SELECT TF1.ID,  to_char(TF1.data_hora, 'YYYY-MM-DD') AS data_hora, TF1.destinatario, TF1.valor   
 							FROM public.transacao_financeira TF1    

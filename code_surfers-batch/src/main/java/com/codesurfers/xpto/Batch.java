@@ -43,7 +43,7 @@ public class Batch {
 		TaskExecutorPartitionHandler retVal = new TaskExecutorPartitionHandler();
 		retVal.setTaskExecutor(new SimpleAsyncTaskExecutor());
 		retVal.setStep(slave);
-		retVal.setGridSize(3);
+		retVal.setGridSize(5);
 
 		Step s2 = steps.get("partitionStep").partitioner("carregar_arquivo_banco", getParticionador())
 				.partitionHandler(retVal).build();
