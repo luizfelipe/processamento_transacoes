@@ -32,28 +32,37 @@ public class MyFileUtils {
 		ZipInputStream zipInputStream = null;
 		ZipEntry zipEntry = null;
 		try {
-			fileInputStream = new FileInputStream(zipFilePath);
-			zipInputStream = new ZipInputStream(fileInputStream);
-			zipEntry = zipInputStream.getNextEntry();
-			while (zipEntry != null) {
-				String fileName = zipEntry.getName();
-				File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
-				new File(newFile.getParent()).mkdirs();
-				FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-				int length;
-				while ((length = zipInputStream.read(buffer)) > 0) {
-					fileOutputStream.write(buffer, 0, length);
-				}
-				fileOutputStream.close();
-				zipInputStream.closeEntry();
+			try {
+				fileInputStream = new FileInputStream(zipFilePath);
+				zipInputStream = new ZipInputStream(fileInputStream);
 				zipEntry = zipInputStream.getNextEntry();
-			}
+				while (zipEntry != null) {
+					String fileName = zipEntry.getName();
+					File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
+					new File(newFile.getParent()).mkdirs();
 
+					FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+					int length;
+					while ((length = zipInputStream.read(buffer)) > 0) {
+						fileOutputStream.write(buffer, 0, length);
+					}
+
+					fileOutputStream.close();
+					zipInputStream.closeEntry();
+					zipEntry = zipInputStream.getNextEntry();
+				}
+			} finally {
+				if (fileInputStream != null) {
+					fileInputStream.close();
+				}
+
+				if (zipInputStream != null) {
+					zipInputStream.close();
+				}
+
+			}
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
-		} finally {
-			fileInputStream.close();
-			zipInputStream.close();
 		}
 	}
 
@@ -70,48 +79,49 @@ public class MyFileUtils {
 			List<String> lines = new ArrayList<>();
 
 			String line = "";
+			try {
 
-			fileInputStream = new FileInputStream(inputFile);
-			inputStreamFileReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
-			inputBufferedReader = new BufferedReader(inputStreamFileReader);
+				fileInputStream = new FileInputStream(inputFile);
+				inputStreamFileReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
+				inputBufferedReader = new BufferedReader(inputStreamFileReader);
 
-			while ((line = inputBufferedReader.readLine()) != null) {
-				if ((lineCount == 1 && fileCount == 1)) {
+				while ((line = inputBufferedReader.readLine()) != null) {
+					if ((lineCount == 1 && fileCount == 1)) {
+						lineCount++;
+						continue;
+					}
+
+					if (lineCount == numberOfLines) {
+						lineCount = 0;
+						FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", dir, File.separator,
+								fileName, fileCount, fileExtension)), lines);
+						lines = new ArrayList<String>();
+						fileCount++;
+					}
+					lines.add(line);
 					lineCount++;
-					continue;
 				}
 
-				if (lineCount == numberOfLines) {
-					lineCount = 0;
+				if (!lines.isEmpty()) {
 					FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", dir, File.separator, fileName,
 							fileCount, fileExtension)), lines);
-					lines = new ArrayList<String>();
-					fileCount++;
 				}
-				lines.add(line);
-				lineCount++;
-			}
+			} finally {
+				if (inputBufferedReader != null) {
+					inputBufferedReader.close();
+				}
 
-			if (!lines.isEmpty()) {
-				FileUtils.writeLines(new File(
-						String.format("%s%s%s_partition%d%s", dir, File.separator, fileName, fileCount, fileExtension)),
-						lines);
+				if (fileInputStream != null) {
+					fileInputStream.close();
+				}
+				if (inputStreamFileReader != null) {
+					inputStreamFileReader.close();
+				}
+
 			}
 
 		} catch (final IOException ioe) {
 			LOGGER.error(ioe.getMessage());
-		} finally {
-			if (inputBufferedReader != null) {
-				inputBufferedReader.close();
-			}
-
-			if (fileInputStream != null) {
-				fileInputStream.close();
-			}
-			if (inputStreamFileReader != null) {
-				inputStreamFileReader.close();
-			}
-
 		}
 	}
 
