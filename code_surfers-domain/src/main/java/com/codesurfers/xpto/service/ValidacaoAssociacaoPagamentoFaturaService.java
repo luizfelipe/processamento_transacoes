@@ -23,7 +23,7 @@ public class ValidacaoAssociacaoPagamentoFaturaService {
 	
 	public int atualizarPagamentosSemFaturaValida(int ano) {
 		
-		List<TransacaoFinanceira> pagamentos = transacaoFinanceiraRepository.findByTipoTransacaoAndAnoArquivo(TipoTransacao.PAGAMENTO, ano);
+		/*List<TransacaoFinanceira> pagamentos = transacaoFinanceiraRepository.findByTipoTransacaoAndAnoArquivo(TipoTransacao.PAGAMENTO, ano);
 		List<TransacaoFinanceira> faturas = transacaoFinanceiraRepository.findByTipoTransacaoAndAnoArquivo(TipoTransacao.FATURA, ano);
 		
 		faturas.forEach(f -> f.getDataHora().add(Calendar.DAY_OF_YEAR, 1));
@@ -46,8 +46,8 @@ public class ValidacaoAssociacaoPagamentoFaturaService {
 				transacaoFinanceiraRepository.save(p);
 				numeroRegistrosAlterados++;
 			}
-		}
+		}*/
 		
-		return numeroRegistrosAlterados;
+		return 0;
 	}
 }
