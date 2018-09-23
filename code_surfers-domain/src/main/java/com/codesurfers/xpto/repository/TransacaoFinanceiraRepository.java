@@ -66,20 +66,20 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 			"			SELECT TF1.ID,  date (TF1.data_hora) AS data_hora, TF1.destinatario, TF1.valor " + 
 			"				FROM transacao_financeira TF1  " + 
 			"				WHERE TF1.tipo_transacao = 'PAGAMENTO'" + 
-			"				 AND TF1.ano_arquivo = 2018" + 
+			"				 AND TF1.ano_arquivo = :anoArquivo" + 
 			"			EXCEPT " + 
 			"			SELECT PAGAMENTOS.* FROM  " + 
 			"			 (SELECT TF1.ID,  date (TF1.data_hora) AS data_hora, TF1.destinatario, TF1.valor " + 
 			"				FROM transacao_financeira TF1  " + 
 			"				WHERE TF1.tipo_transacao = 'PAGAMENTO'" + 
-			"				   AND TF1.ano_arquivo = 2018" + 
+			"				   AND TF1.ano_arquivo = :anoArquivo" + 
 			"			 ) PAGAMENTOS" + 
 			"			INNER JOIN " + 
 			"			  (SELECT date (TF2.data_hora + INTERVAL '1 day') AS data_hora, TF2.destinatario, TF2.valor " + 
 			"				FROM transacao_financeira TF2" + 
 			"				WHERE TF2.tipo_transacao = 'FATURA' " + 
 			"				AND TF2.remetente in ('OPERACOES', 'TI', 'ADMINISTRATIVO')" + 
-			"				AND TF2.ano_arquivo = 2018" + 
+			"				AND TF2.ano_arquivo = :anoArquivo" + 
 			"				) FATURAS " + 
 			"				ON FATURAS.valor = PAGAMENTOS.valor " + 
 			"				and FATURAS.data_hora = PAGAMENTOS.data_hora " + 
