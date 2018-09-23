@@ -25,6 +25,12 @@ public class TransacaoMapper implements FieldSetMapper<TransacaoFinanceira> {
 	private static final String DESTINATARIO = "DESTINATARIO";
 	private static final String VALOR = "VALOR";
 	private static final String TIPOTRANSACAO = "TIPOTRANSACAO";
+	
+	private Integer ano;
+
+	public TransacaoMapper(Integer ano) {
+		this.ano = ano;
+	}
 
 	@Override
 	public TransacaoFinanceira mapFieldSet(FieldSet fieldSet) throws BindException {
@@ -37,7 +43,7 @@ public class TransacaoMapper implements FieldSetMapper<TransacaoFinanceira> {
 		transacao.setTipoTransacao(TipoTransacao.valueOf(fieldSet.readString(TIPOTRANSACAO)));
 		transacao.setValido(true);
 		transacao.setErroValidacao(ErroValidacaoTransacao.SEM_ERRO);
-		transacao.setAnoArquivo(2018);
+		transacao.setAnoArquivo(ano);
 		return transacao;
 	}
 

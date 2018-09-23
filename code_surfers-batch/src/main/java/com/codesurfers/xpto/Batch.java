@@ -22,6 +22,9 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import com.codesurfers.xpto.model.TransacaoFinanceira;
+import com.codesurfers.xpto.steps.Step1;
+import com.codesurfers.xpto.steps.Step2;
+import com.codesurfers.xpto.steps.Step3;
 
 @Configuration
 @EnableBatchProcessing
@@ -34,7 +37,7 @@ public class Batch {
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
 
 		Step slave = steps.get("processar_arquivo").<TransacaoFinanceira, TransacaoFinanceira>chunk(1000)
-				.reader(step2.reader(null)).writer(step2.writer(entityManagerFactory)).build();
+				.reader(step2.reader(null, null)).writer(step2.writer(entityManagerFactory)).build();
 
 		TaskExecutorPartitionHandler retVal = new TaskExecutorPartitionHandler();
 		retVal.setTaskExecutor(new SimpleAsyncTaskExecutor());
