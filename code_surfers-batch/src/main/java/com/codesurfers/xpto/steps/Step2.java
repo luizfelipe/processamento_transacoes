@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -21,7 +20,7 @@ import com.codesurfers.xpto.model.TransacaoFinanceira;
 @Configuration
 public class Step2 {
 
-	@Bean
+	@Bean(name = "step2-reader")
 	@StepScope
 	public FlatFileItemReader<TransacaoFinanceira> reader(@Value("#{stepExecutionContext['fileName']}") String file,
 			@Value("#{jobParameters['ano']}") Integer ano) throws MalformedURLException {
@@ -42,8 +41,8 @@ public class Step2 {
 		return reader;
 	}
 
-	@Bean
-	public ItemWriter<TransacaoFinanceira> writer(EntityManagerFactory entityManagerFactory) {
+	@Bean(name = "step2-writer")
+	public JpaItemWriter<TransacaoFinanceira> writer(EntityManagerFactory entityManagerFactory) {
 		JpaItemWriter<TransacaoFinanceira> writer = new JpaItemWriter<TransacaoFinanceira>();
 		writer.setEntityManagerFactory(entityManagerFactory);
 		return writer;

@@ -1,7 +1,6 @@
 package com.codesurfers.xpto;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -11,6 +10,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.job.DefaultJobParametersValidator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.partition.support.MultiResourcePartitioner;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
@@ -26,6 +26,7 @@ import com.codesurfers.xpto.model.TransacaoFinanceira;
 import com.codesurfers.xpto.steps.Step1;
 import com.codesurfers.xpto.steps.Step2;
 import com.codesurfers.xpto.steps.Step3;
+import com.codesurfers.xpto.steps.Step4;
 
 @Configuration
 @EnableBatchProcessing
@@ -33,8 +34,8 @@ import com.codesurfers.xpto.steps.Step3;
 public class Batch {
 
 	@Bean
-	public Job job(JobBuilderFactory jobs, StepBuilderFactory steps, Step1 step1, Step2 step2, Step3 step3,
-			EntityManagerFactory entityManagerFactory) throws MalformedURLException {
+	public Job job(JobBuilderFactory jobs, StepBuilderFactory steps, Step1 step1, Step2 step2, Step3 step3, Step4 step4,
+			EntityManagerFactory entityManagerFactory) throws Exception {
 
 		Step s1 = steps.get("baixar_descompactar").tasklet(step1.baixarEDescompactarArquivo()).build();
 
@@ -44,14 +45,19 @@ public class Batch {
 		TaskExecutorPartitionHandler retVal = new TaskExecutorPartitionHandler();
 		retVal.setTaskExecutor(new SimpleAsyncTaskExecutor());
 		retVal.setStep(slave);
-		retVal.setGridSize(3);
+		retVal.setGridSize(5);
 
 		Step s2 = steps.get("partitionStep").partitioner("carregar_arquivo_banco", getParticionador())
 				.partitionHandler(retVal).build();
 
 		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).build();
+		Step s4 = steps.get("gerar_log").<TransacaoFinanceira, TransacaoFinanceira>chunk(1000)
+				.reader(step4.reader(entityManagerFactory, null)).writer(step4.writer()).build();
+
+		return jobs.get("job").incrementer(new RunIdIncrementer())
+				.validator(new DefaultJobParametersValidator(new String[] { "ano" }, new String[] {})).start(s1)
+				.next(s2).next(s3).next(s4).build();
 	}
 
 	@Bean
