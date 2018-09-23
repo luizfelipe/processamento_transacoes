@@ -103,34 +103,40 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 
 ## Procedimentos para Deploy e Implantação
 
-1) Baixar os seguintes artefatos do repositório: 
+### Certificar-se de ter os seguintes softwares estão instalados e configurados:
 
-    - <a href="artefatos_executaveis/xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar</a>
+- PostgreSQL v10.5 - porta 5432 - usuario: postgres - senha: 123
+- JRE 8 - variáveis JAVA_HOME e CLASSPATH e PATH configuradas
 
-    - <a href="artefatos_executaveis/xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar</a>
 
-    - <a href="Apache24.zip">Apache24.zip</a>
+### Baixar os seguintes artefatos do repositório: 
 
-2) Executar o jar do batch: 
+- <a href="artefatos_executaveis/xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar</a>
 
-    - ```java -jar xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar ano=<yyyy>```
+- <a href="artefatos_executaveis/xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar</a>
 
-3) Executar o jar do web service: 
+- <a href="Apache24.zip">Apache24.zip</a>
 
-    - ```java -jar xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar```
+### Executar o jar do batch: 
 
-    - Verificar acessando os seguintes endpoints:
+- ```java -jar xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar ano=<yyyy>```
+
+### Executar o jar do web service: 
+
+- ```java -jar xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar```
+
+- Verificar acessando os seguintes endpoints:
     
-        - <a href="http://localhost:8080/transacoes/">http://localhost:8080/transacoes/</a>
-        - <a href="http://localhost:8080/format/datatables">http://localhost:8080/format/datatables</a>
-        - <a href="http://localhost:8080/quantidade/mes">http://localhost:8080/classificacao/validacao</a>
-        - <a href="http://localhost:8080/classificacao/validacao">http://localhost:8080/classificacao/validacao</a>
+- <a href="http://localhost:8080/transacoes/">http://localhost:8080/transacoes/</a>
+- <a href="http://localhost:8080/format/datatables">http://localhost:8080/format/datatables</a>
+- <a href="http://localhost:8080/quantidade/mes">http://localhost:8080/classificacao/validacao</a>
+- <a href="http://localhost:8080/classificacao/validacao">http://localhost:8080/classificacao/validacao</a>
 
 
-4) Descompactar Apache24.zip no diretório ```C:\``` do Windows (7 ou 10):
+### Descompactar Apache24.zip no diretório ```C:\``` do Windows (7 ou 10):
 
-    - Caminho do Apache deve ser ```C:\Apache24```
+- Caminho do Apache deve ser ```C:\Apache24```
 
-5) Executar arquivo ```C:\Apache24\bin\httpd.exe```.
+### Executar arquivo ```C:\Apache24\bin\httpd.exe```.
 
-6) Verificar aplicação web executando em ```http://localhost```.
+### Verificar aplicação web executando em ```http://localhost```.
