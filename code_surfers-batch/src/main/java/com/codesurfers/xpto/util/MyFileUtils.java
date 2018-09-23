@@ -38,15 +38,14 @@ public class MyFileUtils {
 				File newFile = new File(String.format("%s%s", unzippedFilePath, fileName));
 				new File(newFile.getParent()).mkdirs();
 
-				FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-				int length;
-				while ((length = zipInputStream.read(buffer)) > 0) {
-					fileOutputStream.write(buffer, 0, length);
+				try (FileOutputStream fileOutputStream = new FileOutputStream(newFile)) {
+					int length;
+					while ((length = zipInputStream.read(buffer)) > 0) {
+						fileOutputStream.write(buffer, 0, length);
+					}
+					zipInputStream.closeEntry();
+					zipEntry = zipInputStream.getNextEntry();
 				}
-
-				fileOutputStream.close();
-				zipInputStream.closeEntry();
-				zipEntry = zipInputStream.getNextEntry();
 			}
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
