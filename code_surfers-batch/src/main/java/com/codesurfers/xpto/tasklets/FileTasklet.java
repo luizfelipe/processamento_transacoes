@@ -12,6 +12,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -23,6 +25,9 @@ import com.codesurfers.xpto.util.MyFileUtils;
 
 @Component
 public class FileTasklet implements Tasklet {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileTasklet.class);
+
 	@Value("${hackathon.zipfile.url}")
 	private String hackathonFileUrl;
 
@@ -58,25 +63,25 @@ public class FileTasklet implements Tasklet {
 			MyFileUtils.unzipFile(pathToZip, pathToFile);
 			MyFileUtils.partitionFile(fileName, fileExtension, workingDirectory, numberOfLines);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+		} catch (CertificateException ce) {
+			LOGGER.error(ce.getMessage());
 		}
 
 		return RepeatStatus.FINISHED;
 	}
 
-	private void trustAllCertsManager() {
+	private void trustAllCertsManager() throws CertificateException {
 		// Create a trust manager that does not validate certificate chains
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
 				return new X509Certificate[] {};
 			}
 
-			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
-					throws CertificateException {
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
 			}
 
-			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
-					throws CertificateException {
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
 			}
 		} };
 
@@ -86,7 +91,7 @@ public class FileTasklet implements Tasklet {
 			sc.init(null, trustAllCerts, new java.security.SecureRandom());
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 		} catch (Exception e) {
-
+			LOGGER.error(e.getMessage());
 		}
 	}
 
