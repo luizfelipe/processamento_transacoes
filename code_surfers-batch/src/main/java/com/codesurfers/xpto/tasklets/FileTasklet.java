@@ -22,22 +22,22 @@ import com.codesurfers.xpto.util.MyFileUtils;
 @Component
 public class FileTasklet implements Tasklet {
 	@Value("${hackathon.zipfile.url}")
-	public String hackathonFileUrl;
+	private String hackathonFileUrl;
 
 	@Value("${hackathon.working.directory}")
-	public String workingDirectory;
+	private String workingDirectory;
 
 	@Value("${hackathon.file.name}")
-	public String fileName;
+	private String fileName;
 
 	@Value("${hackathon.file.extension}")
-	public String fileExtension;
+	private String fileExtension;
 
 	@Value("${hackathon.csvfile.path}")
-	public String filePath;
+	private String filePath;
 
 	@Value("${hackathon.zipfile.path}")
-	public String zipFilePath;
+	private String zipFilePath;
 
 	@Value("${partitioner.lines.per.file}")
 	private Integer numberOfLines;
@@ -50,6 +50,7 @@ public class FileTasklet implements Tasklet {
 			trustAllCertsManager();
 
 			File zipFile = new File(pathToZip);
+
 			FileUtils.copyURLToFile(new URL(hackathonFileUrl), zipFile);
 
 			MyFileUtils.unzipFile(pathToZip, pathToFile);
@@ -84,4 +85,33 @@ public class FileTasklet implements Tasklet {
 
 		}
 	}
+
+	public void setHackathonFileUrl(String hackathonFileUrl) {
+		this.hackathonFileUrl = hackathonFileUrl;
+	}
+
+	public void setWorkingDirectory(String workingDirectory) {
+		this.workingDirectory = workingDirectory;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public void setZipFilePath(String zipFilePath) {
+		this.zipFilePath = zipFilePath;
+	}
+
+	public void setNumberOfLines(Integer numberOfLines) {
+		this.numberOfLines = numberOfLines;
+	}
+
 }
