@@ -1,0 +1,21 @@
+{
+  "name": "code_surfers-ws",
+  "authors": [
+    "Code Surfers Team"
+  ],
+  "description": "Painel de Dados de Transacoes Financeiras",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "gentelella":"1.4.0"
+  }
+}

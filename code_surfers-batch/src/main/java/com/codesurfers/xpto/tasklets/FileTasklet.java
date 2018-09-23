@@ -3,7 +3,6 @@ package com.codesurfers.xpto.tasklets;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -64,14 +63,12 @@ public class FileTasklet implements Tasklet {
 			MyFileUtils.partitionFile(fileName, fileExtension, workingDirectory, numberOfLines);
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
-		} catch (CertificateException ce) {
-			LOGGER.error(ce.getMessage());
 		}
 
 		return RepeatStatus.FINISHED;
 	}
 
-	private void trustAllCertsManager() throws CertificateException {
+	private void trustAllCertsManager() {
 		// Create a trust manager that does not validate certificate chains
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
