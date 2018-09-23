@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.codesurfers.xpto.util.MyFileUtils;
+
 @Configuration
 public class Step1 {
 
@@ -53,23 +55,24 @@ public class Step1 {
 	private Integer numberOfLines;
 
 	private File zipFile;
-	
+
 	@Bean
 	@StepScope
 	public Tasklet baixarEDescompactarArquivo() {
 		return new Tasklet() {
 			@Override
 			public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-				System.out.println("Baixar e descompactar");
-
+				String pathToZip = String.format("%s%s%s", workingDirectory, File.separator, zipFilePath);
+				String pathToFile = String.format("%s%s", workingDirectory, File.separator);
 				try {
 					// TODO Verificar se existe uma possibilidade melhor.
 					trustAllCertsManager();
-					
-					zipFile = new File(String.format("%s%s%s", workingDirectory, File.separator, zipFilePath));
+
+					zipFile = new File(pathToZip);
 					FileUtils.copyURLToFile(new URL(hackathonFileUrl), zipFile);
-					
-					unzipFile();
+
+					MyFileUtils.unzipFile(pathToZip, pathToFile);
+
 					partitionateFile();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -86,7 +89,7 @@ public class Step1 {
 	 * @throws IOException
 	 */
 	public void unzipFile() throws IOException {
-		if(zipFile != null) {
+		if (zipFile != null) {
 			byte[] buffer = new byte[1024];
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile.getPath()));
 			ZipEntry zipEntry = zis.getNextEntry();
@@ -104,7 +107,7 @@ public class Step1 {
 			zis.closeEntry();
 			zis.close();
 		}
-		
+
 	}
 
 	/**
@@ -157,7 +160,7 @@ public class Step1 {
 
 			if (lineCount == numberOfLines) {
 				lineCount = 0;
-				FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", workingDirectory,File.separator,
+				FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", workingDirectory, File.separator,
 						fileName, fileCount, fileExtension)), lines);
 				lines = new ArrayList<String>();
 				fileCount++;
@@ -167,10 +170,9 @@ public class Step1 {
 		}
 
 		if (!lines.isEmpty()) {
-			FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", workingDirectory,File.separator,
+			FileUtils.writeLines(new File(String.format("%s%s%s_partition%d%s", workingDirectory, File.separator,
 					fileName, fileCount, fileExtension)), lines);
 		}
-
 
 		try {
 			if (inputBufferedReader != null) {

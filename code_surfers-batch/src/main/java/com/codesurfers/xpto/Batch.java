@@ -46,7 +46,7 @@ public class Batch {
 
 		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).next(s3).build();
+		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).build();
 	}
 
 	@Bean
