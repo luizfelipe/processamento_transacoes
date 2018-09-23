@@ -24,10 +24,10 @@ public class Step2 {
 	@StepScope
 	public FlatFileItemReader<TransacaoFinanceira> reader(@Value("#{stepExecutionContext['fileName']}") String file,
 			@Value("#{jobParameters['ano']}") Integer ano) throws MalformedURLException {
-		FlatFileItemReader<TransacaoFinanceira> reader = new FlatFileItemReader<TransacaoFinanceira>();
+		FlatFileItemReader<TransacaoFinanceira> reader = new FlatFileItemReader<>();
 		reader.setResource(new UrlResource(file));
 		reader.setStrict(true);
-		DefaultLineMapper<TransacaoFinanceira> dlm = new DefaultLineMapper<TransacaoFinanceira>();
+		DefaultLineMapper<TransacaoFinanceira> dlm = new DefaultLineMapper<>();
 		DelimitedLineTokenizer dlt = new DelimitedLineTokenizer(";");
 		dlt.setNames(new String[] { "ID", "TIMESTAMP", "REMETENTE", "DESTINATARIO", "VALOR", "TIPOTRANSACAO" });
 		dlm.setLineTokenizer(dlt);
