@@ -63,20 +63,20 @@ public interface TransacaoFinanceiraRepository extends JpaRepository<TransacaoFi
 			"   SET erro_validacao = 2, valido=false  " + 
 			"   WHERE trans.id in ( " + 
 			"	   SELECT INVALIDOS.id FROM (" + 
-			"			SELECT TF1.ID,  date (TF1.data_hora) AS data_hora, TF1.destinatario, TF1.valor " + 
-			"				FROM transacao_financeira TF1  " + 
+			"			SELECT TF1.ID,  to_char(TF1.data_hora, 'YYYY-MM-DD') AS data_hora, TF1.destinatario, TF1.valor " + 
+			"				FROM public.transacao_financeira TF1  " + 
 			"				WHERE TF1.tipo_transacao = 'PAGAMENTO'" + 
 			"				 AND TF1.ano_arquivo = :anoArquivo" + 
 			"			EXCEPT " + 
 			"			SELECT PAGAMENTOS.* FROM  " + 
-			"			 (SELECT TF1.ID,  date (TF1.data_hora) AS data_hora, TF1.destinatario, TF1.valor " + 
-			"				FROM transacao_financeira TF1  " + 
+			"			 (SELECT TF1.ID,  to_char(TF1.data_hora, 'YYYY-MM-DD') AS data_hora, TF1.destinatario, TF1.valor " + 
+			"				FROM public.transacao_financeira TF1  " + 
 			"				WHERE TF1.tipo_transacao = 'PAGAMENTO'" + 
 			"				   AND TF1.ano_arquivo = :anoArquivo" + 
 			"			 ) PAGAMENTOS" + 
 			"			INNER JOIN " + 
-			"			  (SELECT date (TF2.data_hora + INTERVAL '1 day') AS data_hora, TF2.destinatario, TF2.valor " + 
-			"				FROM transacao_financeira TF2" + 
+			"			  (SELECT to_char((cast(cast(TF2.data_hora as date) + 1 as timestamp)), 'YYYY-MM-DD')AS data_hora, TF2.destinatario, TF2.valor " + 
+			"				FROM public.transacao_financeira TF2" + 
 			"				WHERE TF2.tipo_transacao = 'FATURA' " + 
 			"				AND TF2.remetente in ('OPERACOES', 'TI', 'ADMINISTRATIVO')" + 
 			"				AND TF2.ano_arquivo = :anoArquivo" + 

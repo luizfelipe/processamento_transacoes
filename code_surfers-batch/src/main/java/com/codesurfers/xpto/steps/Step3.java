@@ -1,4 +1,4 @@
-package com.codesurfers.xpto;
+package com.codesurfers.xpto.steps;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.StepScope;

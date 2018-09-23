@@ -1,4 +1,4 @@
-package com.codesurfers.xpto;
+package com.codesurfers.xpto.steps;
 
 import java.net.MalformedURLException;
 
@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.UrlResource;
 
+import com.codesurfers.xpto.TransacaoMapper;
 import com.codesurfers.xpto.model.TransacaoFinanceira;
 
 @Configuration
