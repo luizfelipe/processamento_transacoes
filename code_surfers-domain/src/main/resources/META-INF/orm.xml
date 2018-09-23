@@ -73,6 +73,16 @@
        </query>
     </named-native-query>
     
-    
+     <named-native-query name="TransacaoFinanceira.listTransacoesPorMes">
+        <query>
+        	   select  to_char(data_hora, 'MM') as mes, count(id) as qtd 
+				from public.transacao_financeira
+				where ano_arquivo = :anoArquivo 
+				  and valido = true
+				group by mes
+				order by mes
+        </query>
+     </named-native-query>
+   
        
 </entity-mappings>

@@ -3,7 +3,12 @@ package com.codesurfers.xpto.repository;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Tuple;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -140,6 +145,12 @@ public class TransacaoFinanceiraRepositoryTest {
 		assertEquals("70dc1b6d-ef98-4464-b19d-dd0843eb5eaf", paginaTransacoes.getContent().get(0).getId());
 		assertEquals("5e09e19e-58a7-49cb-a5dc-73a25701e0e9",
 				paginaTransacoes.getContent().get(paginaTransacoes.getContent().size() - 1).getId());
+	}
+	
+	@Test
+	public void testarListarPorMes() {
+		List<Tuple> lista = this.transacaoFincanceiraRepository.listTransacoesPorMes(ANO_ARQUIVO);
+		
 	}
 
 }

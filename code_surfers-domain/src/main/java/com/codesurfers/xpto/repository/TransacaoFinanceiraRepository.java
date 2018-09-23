@@ -2,6 +2,7 @@ package com.codesurfers.xpto.repository;
 
 import java.util.List;
 
+import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
@@ -83,5 +84,10 @@ public interface TransacaoFinanceiraRepository extends PagingAndSortingRepositor
 	@Modifying(clearAutomatically = true)
 	@Query(nativeQuery = true)
 	int updatePagamentosInvalidos(@Param("anoArquivo") int anoArquivo);
+	
+	
+	
+	@Query(nativeQuery = true)
+	List<Tuple> listTransacoesPorMes(@Param("anoArquivo") int anoArquivo);
 	
 }
