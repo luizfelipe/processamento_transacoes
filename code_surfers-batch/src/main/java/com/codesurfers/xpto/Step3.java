@@ -24,6 +24,7 @@ public class Step3 {
 				transacaoFinanceiraRepository.updateDepositosInvalidos(2018);
 				transacaoFinanceiraRepository.updatePagamentosRemetentesInvalidos(2018);
 				transacaoFinanceiraRepository.updateRetiradasInvalidas(2018);
+				transacaoFinanceiraRepository.updatePagamentosInvalidos(2018);
 				return RepeatStatus.FINISHED;
 			}
 		};
