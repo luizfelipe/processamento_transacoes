@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.job.DefaultJobParametersValidator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.partition.support.MultiResourcePartitioner;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
@@ -49,7 +50,9 @@ public class Batch {
 
 		Step s3 = steps.get("aplicar_regras").tasklet(step3.aplicarRegras()).build();
 
-		return jobs.get("job").incrementer(new RunIdIncrementer()).start(s1).next(s2).next(s3).build();
+		return jobs.get("job").incrementer(new RunIdIncrementer())
+				.validator(new DefaultJobParametersValidator(new String[] { "ano" }, new String[] {})).start(s1)
+				.next(s2).next(s3).build();
 	}
 
 	@Bean
