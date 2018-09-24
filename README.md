@@ -148,9 +148,10 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 
 ### Executar arquivo: 
 
-```C:\Apache24\bin\httpd.exe```
+``` C:\Apache24\bin\httpd.exe ```
+
 
 ### Verificar aplicação web executando em:
 
-```http://localhost```
+``` http://localhost ```
 
