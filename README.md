@@ -137,7 +137,7 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 
 - <a href="http://localhost:8080/transacoes/format/datatables?draw=0">http://localhost:8080/transacoes/format/datatables?draw=0</a> - Retorna as transações válidas (parâmetro "validas"="true") ou inválidas (parâmetro "validas"="false"). É usado pelo módulo de interface web e pode receber os parâmetros inteiros "start" (default 0), "validas" (default true), "length" (default 25), "draw" (obrigatório).
 
-- <a href="http://localhost:8080/transacoes/quantidade/mes">http://localhost:8080/transacoes/quantidade/mes</a> - Retorna a quantidade de transações para cada mês de um ano passado como parâmetro. É usado pelo módulo de interface web e ode receber o parâmetro inteiro "ano" (default 2018)
+- <a href="http://localhost:8080/transacoes/quantidade/mes">http://localhost:8080/transacoes/quantidade/mes</a> - Retorna a quantidade de transações para cada mês de um ano passado como parâmetro. É usado pelo módulo de interface web e pode receber o parâmetro inteiro "ano" (default 2018)
 
 - <a href="http://localhost:8080/transacoes/classificacao/validacao">http://localhost:8080/transacoes/classificacao/validacao</a> - Retorna a quantidade de transações válidas e inválidas por tipo de erro de validação referentes a um ano passado como parâmetro. É usado pelo módulo de interface web e pode receber o parâmetro inteiro "ano" (default 2018).
 
@@ -153,5 +153,5 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 
 ### Verificar aplicação web executando em:
 
-``` http://localhost ```
+<a href="http://localhost">http://localhost</a>
 
