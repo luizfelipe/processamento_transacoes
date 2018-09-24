@@ -8,7 +8,7 @@ Este projeto foi desenvolvido com a intenção de atender as especificações pr
 
 1) Download e processamento de um arquivo texto com registros financeiros, de acordo com regras pré-estabelecidas, a fim de validar os registros constantes neste arquivo.
 
-2) Persistência dos registros de transações processadas em base de dados e gravação de registros inválidados em log.
+2) Persistência dos registros de transações processadas em base de dados e gravação de registros invalidados em log.
 
 3) Disponibilização de API para consulta à transações processadas e válidadas.
 
@@ -35,23 +35,27 @@ Como se pode observar no diagrama apresentado acima, a solução ```xpto-process
 
 - ```xpto_processamento_transacoes-domain```: Este componente contém as entidades JPA e os repositórios usados para persistência de dados e consulta. É incluido como dependência dos componentes ```xpto_processamento_transacoes-batch``` e ```xpto_processamento_transacoes-ws``` no build com Maven.
 
-- ```xpto_processamento_transacoes-ws```: Este componente é um web service rest desenvolvido com Spring MVC + Spring Boot e disponibiliza API para consulta à transações processadas e válidadas pelo componente ```xpto_processamento_transacoes-batch```. É entregue através do artefato executável <a href="artefatos_executaveis/xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar</a>, o qual, ao ser executado localmente, disponibiliza os seguintes endpoints:
+- ```xpto_processamento_transacoes-ws```: Este componente é um web service rest desenvolvido com Spring MVC + Spring Boot e disponibiliza API para consulta à transações processadas e validadas pelo componente ```xpto_processamento_transacoes-batch```. É entregue através do artefato executável <a href="artefatos_executaveis/xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar">xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar</a>, o qual, ao ser executado localmente, disponibiliza os seguintes endpoints:
 
     - <a href="http://localhost:8080/transacoes/">http://localhost:8080/transacoes/</a>
-    - <a href="http://localhost:8080/format/datatables">http://localhost:8080/format/datatables</a>
-    - <a href="http://localhost:8080/quantidade/mes">http://localhost:8080/classificacao/validacao</a>
-    - <a href="http://localhost:8080/classificacao/validacao">http://localhost:8080/classificacao/validacao</a>
+    - <a href="http://localhost:8080/transacoes/format/datatables?draw=0">http://localhost:8080/transacoes/format/datatables?draw=0</a>
+    - <a href="http://localhost:8080/transacoes/quantidade/mes">http://localhost:8080/transacoes/quantidade/mes</a>
+    - <a href="http://localhost:8080/transacoes/classificacao/validacao">http://localhost:8080/transacoes/classificacao/validacao</a>
 
-- ```xpto_consulta_transacoes-client_ws [Web Site]```: Este componente é uma interface gráfica web desenvolvido com HTML 5, CSS e JS para permitir visualização de dados das transações processadas disponibilizadas pela API
+- ```xpto_consulta_transacoes-client_ws [Web Site]```: Este componente é uma interface gráfica web desenvolvida com HTML 5, CSS e JS para permitir visualização de dados das transações processadas disponibilizadas pela API
 
 
 ## Tecnologias Utilizadas
 
-> Spring Batch
-
 > Spring Boot
 
-> Restful
+> Spring Batch
+
+> Spring Core (Spring MVC e Spring Data)
+
+> JPA
+
+> Maven
 
 > HTML5
 
@@ -119,24 +123,34 @@ Para facilitar a auditoria criamos duas telas que apresentam a listagem de trans
 
 ### Executar o jar do batch: 
 
-- ```java -jar xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar ano=<yyyy>```
+- ```java -jar xpto_processamento_transacoes-batch-0.0.1-SNAPSHOT-exec.jar ano=2018```
+
+### Verificar arquivo criado dentro da pasta ```log```, criada no diretório em que o .jar do batch foi executado:
 
 ### Executar o jar do web service: 
 
 - ```java -jar xpto_processamento_transacoes-ws-0.0.1-SNAPSHOT-exec.jar```
 
-- Verificar acessando os seguintes endpoints:
+### Verificar o web service em execução acessando os seguintes endpoints:
     
-- <a href="http://localhost:8080/transacoes/">http://localhost:8080/transacoes/</a>
-- <a href="http://localhost:8080/format/datatables">http://localhost:8080/format/datatables</a>
-- <a href="http://localhost:8080/quantidade/mes">http://localhost:8080/classificacao/validacao</a>
-- <a href="http://localhost:8080/classificacao/validacao">http://localhost:8080/classificacao/validacao</a>
+- <a href="http://localhost:8080/transacoes/">http://localhost:8080/transacoes/</a> - Retorna as transações validadas (por padrão 100 transações). Pode receber os parâmetros inteiros "page" (default 0) e "limit" (default 100), indicando, respectivamente, a página e o número de registros a serem buscados/retornados.
+
+- <a href="http://localhost:8080/transacoes/format/datatables?draw=0">http://localhost:8080/transacoes/format/datatables?draw=0</a> - Retorna as transações válidas (parâmetro "validas"="true") ou inválidas (parâmetro "validas"="false"). É usado pelo módulo de interface web e pode receber os parâmetros inteiros "start" (default 0), "validas" (default true), "length" (default 25), "draw" (obrigatório).
+
+- <a href="http://localhost:8080/transacoes/quantidade/mes">http://localhost:8080/transacoes/quantidade/mes</a> - Retorna a quantidade de transações para cada mês de um ano passado como parâmetro. É usado pelo módulo de interface web e ode receber o parâmetro inteiro "ano" (default 2018)
+
+- <a href="http://localhost:8080/transacoes/classificacao/validacao">http://localhost:8080/transacoes/classificacao/validacao</a> - Retorna a quantidade de transações válidas e inválidas por tipo de erro de validação referentes a um ano passado como parâmetro. É usado pelo módulo de interface web e pode receber o parâmetro inteiro "ano" (default 2018).
 
 
 ### Descompactar Apache24.zip no diretório ```C:\``` do Windows (7 ou 10):
 
 - Caminho do Apache deve ser ```C:\Apache24```
 
-### Executar arquivo ```C:\Apache24\bin\httpd.exe```.
+### Executar arquivo: 
 
-### Verificar aplicação web executando em ```http://localhost```.
+```C:\Apache24\bin\httpd.exe```
+
+### Verificar aplicação web executando em:
+
+```http://localhost```
+
